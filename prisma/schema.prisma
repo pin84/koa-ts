@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:Root1234@localhost:3306/abc"
+}
+
+// 根据模型创建数据库
+//npx prisma migrate dev --name init
+
+
+model ice {
+  id          Int       @unique @default(autoincrement()) @db.UnsignedInt
+  name        String    @unique @db.VarChar(45)
+  pwd         String?   @db.VarChar(45)
+  create_time DateTime? @default(now()) @db.DateTime(0)
+  update_time DateTime? @default(now()) @db.DateTime(0)
+
+  @@id([id, name])
+}
+
+model user {
+  id          Int       @unique @default(autoincrement()) @db.UnsignedInt
+  name        String    @unique @db.VarChar(45)
+  pwd         String?   @db.VarChar(45)
+  create_time DateTime? @default(now()) @db.DateTime(0)
+  update_time DateTime? @default(now()) @db.DateTime(0)
+}
+
+model message {
+  id          Int       @id @default(autoincrement()) @db.UnsignedInt
+  userid      Int?
+  title       String?   @db.VarChar(45)
+  username    String?   @db.VarChar(16)
+  content     String?   @db.VarChar(255)
+  avatar      String?   @db.VarChar(32)
+  isSecret    Int?      @db.TinyInt
+  create_time DateTime? @default(now()) @db.Timestamp(0)
+}
