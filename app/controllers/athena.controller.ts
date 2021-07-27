@@ -9,11 +9,9 @@ import {
   UploadedFile
 } from 'routing-controllers'
 import { AthenaService } from '../services'
-import { Prisma } from '@prisma/client'
 import { Service } from 'typedi'
 
 import Message from '../helpers/message'
-import  fileUploadOptions  from '../helpers/file'
 
 
 @JsonController()
@@ -109,9 +107,9 @@ export class AthenaController {
 
 
   @Get('/token/test')
-  async testToken(@QueryParam('token') token: string) {
-    let count = await this.AthenaService.testToken(token)
-    return count
+  async testToken() {
+    // let count = await this.AthenaService.testToken(token)
+    return 'count'
   }
 
 }

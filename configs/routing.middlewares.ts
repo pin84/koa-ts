@@ -8,15 +8,14 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
 
   async use(context: any, next: (err?: any) => any): Promise<any> {
 
-    console.log(context.request.header.origin);
+    // console.log('---aaa-',context);
 
     context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH')
-    // context.set('Access-Control-Allow-Origin', context.request.header.origin)
-    context.set('Access-Control-Allow-Origin', '*')
+    context.set('Access-Control-Allow-Origin', context.request.header.origin)
+    // context.set('Access-Control-Allow-Origin', 'http://localhost:8080/')
     context.set('Access-Control-Allow-Headers', ['content-type'])
     context.set('Access-Control-Allow-Credentials', 'true')
     context.set('Content-Type', 'application/json; charset=utf-8')
-
     return next()
   }
 }
