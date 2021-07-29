@@ -56,7 +56,6 @@ var routing_controllers_1 = require("routing-controllers");
 var services_1 = require("../services");
 var typedi_1 = require("typedi");
 var message_1 = __importDefault(require("../helpers/message"));
-var file_1 = __importDefault(require("../helpers/file"));
 var AthenaController = (function () {
     function AthenaController(AthenaService) {
         this.AthenaService = AthenaService;
