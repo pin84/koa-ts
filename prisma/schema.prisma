@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:Root1234@127.0.0.1:3306/abc"
+  url      = "mysql://root:!Root1234@127.0.0.1:3306/abc"
 }
 
 // 根据模型创建数据库
@@ -20,6 +20,7 @@ model ice {
 
   @@id([id, name])
 }
+
 
 model user {
   id          Int       @unique @default(autoincrement()) @db.UnsignedInt
