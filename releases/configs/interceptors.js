@@ -13,8 +13,11 @@ var AutoAssignJSONInterceptor = (function () {
     function AutoAssignJSONInterceptor() {
     }
     AutoAssignJSONInterceptor.prototype.intercept = function (action, content) {
-        if (typeof content === 'object')
+        if (typeof content === 'object') {
+            debugger;
             return JSON.stringify(Object.assign({ message: 'ok' }, content));
+        }
+        debugger;
         return JSON.stringify({ message: content });
     };
     AutoAssignJSONInterceptor = __decorate([

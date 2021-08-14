@@ -22,12 +22,9 @@ exports.__esModule = true;
 exports.routingConfigs = void 0;
 var controllers = __importStar(require("../app/controllers"));
 var middlewares = __importStar(require("./routing.middlewares"));
-var interceptors = __importStar(require("./interceptors"));
 var utils_1 = require("./utils");
 exports.routingConfigs = {
     controllers: utils_1.dictToArray(controllers),
     middlewares: utils_1.dictToArray(middlewares),
-    interceptors: utils_1.dictToArray(interceptors),
-    routePrefix: '/apis',
     validation: true
 };
