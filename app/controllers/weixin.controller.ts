@@ -64,12 +64,9 @@ export class WeixinController {
   }
 
 
-  @Get('/wx/test')
-  async test() {
-    let res = await sign('aa')
-
-    console.log('--', res);
-
+  @Get('/wx/sign')
+  async test(@QueryParam('url') url:String) {
+    let res = await sign(url)
     return res
 
   }

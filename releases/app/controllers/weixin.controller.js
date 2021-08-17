@@ -92,15 +92,14 @@ var WeixinController = (function () {
             });
         });
     };
-    WeixinController.prototype.test = function () {
+    WeixinController.prototype.test = function (url) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, wxSign_1.sign('aa')];
+                    case 0: return [4, wxSign_1.sign(url)];
                     case 1:
                         res = _a.sent();
-                        console.log('--', res);
                         return [2, res];
                 }
             });
@@ -126,9 +125,10 @@ var WeixinController = (function () {
         __metadata("design:returntype", Promise)
     ], WeixinController.prototype, "autoReply");
     __decorate([
-        routing_controllers_1.Get('/wx/test'),
+        routing_controllers_1.Get('/wx/sign'),
+        __param(0, routing_controllers_1.QueryParam('url')),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
+        __metadata("design:paramtypes", [String]),
         __metadata("design:returntype", Promise)
     ], WeixinController.prototype, "test");
     WeixinController = __decorate([

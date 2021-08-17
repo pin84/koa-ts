@@ -40,28 +40,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 exports.__esModule = true;
 exports.sign = exports.getTicket = void 0;
-var config_1 = __importDefault(require("./config"));
 var axios_1 = __importDefault(require("axios"));
 var utils_1 = require("./utils");
+var message_1 = __importDefault(require("../app/helpers/message"));
+var config_1 = require("./config");
+console.log('-sfsd--', config_1.wx);
 var getTicket = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var accessTokenUrl, data, errmsg, access_token, ticketUrl, ticket_data, ticket;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var accessTokenUrl, res, _a, errmsg, access_token, ticketUrl, ticket_data, ticket;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                accessTokenUrl = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + config_1["default"].wx.AppID + "&secret=" + config_1["default"].wx.AppSecret;
+                accessTokenUrl = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + config_1.wx.AppID + "&secret=" + config_1.wx.AppSecret;
                 return [4, axios_1["default"].get(accessTokenUrl)];
             case 1:
-                data = (_a.sent()).data;
-                errmsg = data.errmsg, access_token = data.access_token;
+                res = _b.sent();
+                _a = res.data, errmsg = _a.errmsg, access_token = _a.access_token;
                 if (errmsg) {
-                    return [2, errmsg];
+                    return [2, message_1["default"].fail(errmsg)];
                 }
                 ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
                 return [4, axios_1["default"].get(ticketUrl)];
             case 2:
-                ticket_data = _a.sent();
+                ticket_data = _b.sent();
                 ticket = ticket_data.data.ticket;
-                return [2, ticket];
+                return [2, message_1["default"].success(ticket)];
         }
     });
 }); };
@@ -89,22 +91,31 @@ function row(obj) {
     return str;
 }
 var sign = function (url) { return __awaiter(void 0, void 0, void 0, function () {
-    var jsapi_ticket, obj, str, signature;
+    var res, code, obj, str, signature;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, exports.getTicket()];
+            case 0:
+                if (!url) {
+                    return [2, message_1["default"].fail('请传入URL参数')];
+                }
+                return [4, exports.getTicket()];
             case 1:
-                jsapi_ticket = _a.sent();
+                res = _a.sent();
+                code = res.code;
+                if (code < 0) {
+                    return [2, res];
+                }
                 obj = {
+                    appId: config_1.wx.AppID,
                     noncestr: createNonceStr(),
-                    jsapi_ticket: jsapi_ticket,
+                    jsapi_ticket: res.data,
                     timestamp: createTimestamp(),
                     url: url
                 };
                 str = row(obj);
                 signature = utils_1.sha1(str);
                 obj['signature'] = signature;
-                return [2, obj];
+                return [2, message_1["default"].success(obj)];
         }
     });
 }); };

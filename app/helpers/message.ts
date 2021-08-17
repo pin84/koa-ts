@@ -9,10 +9,10 @@ class Message {
     }
   }
 
-  fail(message, code = -1) {
+  fail(data, code = -1) {
     return {
       code,
-      message
+      data
     }
   }
 

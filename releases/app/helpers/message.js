@@ -9,11 +9,11 @@ var Message = (function () {
             data: data
         };
     };
-    Message.prototype.fail = function (message, code) {
+    Message.prototype.fail = function (data, code) {
         if (code === void 0) { code = -1; }
         return {
             code: code,
-            message: message
+            data: data
         };
     };
     return Message;
