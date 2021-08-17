@@ -9,7 +9,7 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
   async use(context: any, next: (err?: any) => any): Promise<any> {
     let origin = context.request.header.origin
     let urlArr = [
-      'http://lzhs.top',
+      'http://www.lzhs.top',
       'http://data.lzhs.top',
       'http://localhost:8080', //上线后这个去掉
     ]
