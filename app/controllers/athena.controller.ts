@@ -19,10 +19,12 @@ import Message from '../helpers/message'
 export class AthenaController {
   constructor(private AthenaService: AthenaService) { }
 
+  @Get('/')
+  test() {
+    return '---test  api----'
+  }
   @Get('/user/logout')
   userlogout(@QueryParam('token') token: string) {
-
-
     return 'this.AthenaService.userlogout(token)'
   }
   @Get('/user/userinfo')

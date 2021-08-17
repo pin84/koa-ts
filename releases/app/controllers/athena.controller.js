@@ -60,6 +60,9 @@ var AthenaController = (function () {
     function AthenaController(AthenaService) {
         this.AthenaService = AthenaService;
     }
+    AthenaController.prototype.test = function () {
+        return '---test  api----';
+    };
     AthenaController.prototype.userlogout = function (token) {
         return 'this.AthenaService.userlogout(token)';
     };
@@ -162,6 +165,12 @@ var AthenaController = (function () {
             });
         });
     };
+    __decorate([
+        routing_controllers_1.Get('/'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], AthenaController.prototype, "test");
     __decorate([
         routing_controllers_1.Get('/user/logout'),
         __param(0, routing_controllers_1.QueryParam('token')),
