@@ -12,7 +12,7 @@ export const useMiddlewares = <T extends Koa>(app: T): T => {
 
   app.use(bodyParser())
 
-  app.use(koaStatic(path.join(__dirname, '..', 'assets')))
+  // app.use(koaStatic(path.join(__dirname, '..', 'assets')))
 
   return app
 }

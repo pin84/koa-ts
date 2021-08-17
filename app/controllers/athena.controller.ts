@@ -18,7 +18,6 @@ import Message from '../helpers/message'
 @Service()
 export class AthenaController {
   constructor(private AthenaService: AthenaService) { }
-
   @Get('/')
   test() {
     return '---test  api----'
