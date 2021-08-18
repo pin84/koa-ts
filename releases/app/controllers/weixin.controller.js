@@ -92,12 +92,12 @@ var WeixinController = (function () {
             });
         });
     };
-    WeixinController.prototype.sign = function (url) {
+    WeixinController.prototype.sign = function (signUrl) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, wxSign_1.sign(url)];
+                    case 0: return [4, wxSign_1.sign(signUrl)];
                     case 1:
                         res = _a.sent();
                         console.log('-wx sign --', res);
@@ -127,7 +127,7 @@ var WeixinController = (function () {
     ], WeixinController.prototype, "test");
     __decorate([
         routing_controllers_1.Get('/wx/sign'),
-        __param(0, routing_controllers_1.QueryParam('url')),
+        __param(0, routing_controllers_1.QueryParam('signUrl')),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [String]),
         __metadata("design:returntype", Promise)
