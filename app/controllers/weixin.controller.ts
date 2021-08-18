@@ -50,25 +50,21 @@ export class WeixinController {
 
 
   @Post('/wx/')
-  async autoReply(@Ctx() Content: any) {
-
+  async test(@Ctx() Content: any) {
     let bb = await getRawBody(Content.req, {
       encoding: 'utf-8'
     })
-
     console.log('--ssdf--', bb);
-
-
-
     return 'hello world ! '
   }
 
 
   @Get('/wx/sign')
-  async test(@QueryParam('url') url:String) {
+  async sign(@QueryParam('url') url:String) {
     let res = await sign(url)
     return res
-
   }
+
+
 
 }

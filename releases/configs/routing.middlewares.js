@@ -54,9 +54,10 @@ var HeaderMiddleware = (function () {
             return __generator(this, function (_a) {
                 origin = context.request.header.origin;
                 urlArr = [
+                    'http://lzhs.top',
+                    'http://wx.lzhs.top',
                     'http://www.lzhs.top',
                     'http://data.lzhs.top',
-                    'http://localhost:8080',
                 ];
                 index = urlArr.findIndex(function (url) { return url == origin; });
                 context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH');

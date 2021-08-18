@@ -76,7 +76,7 @@ var WeixinController = (function () {
             return 'wrong';
         }
     };
-    WeixinController.prototype.autoReply = function (Content) {
+    WeixinController.prototype.test = function (Content) {
         return __awaiter(this, void 0, void 0, function () {
             var bb;
             return __generator(this, function (_a) {
@@ -92,7 +92,7 @@ var WeixinController = (function () {
             });
         });
     };
-    WeixinController.prototype.test = function (url) {
+    WeixinController.prototype.sign = function (url) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
@@ -123,14 +123,14 @@ var WeixinController = (function () {
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
-    ], WeixinController.prototype, "autoReply");
+    ], WeixinController.prototype, "test");
     __decorate([
         routing_controllers_1.Get('/wx/sign'),
         __param(0, routing_controllers_1.QueryParam('url')),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [String]),
         __metadata("design:returntype", Promise)
-    ], WeixinController.prototype, "test");
+    ], WeixinController.prototype, "sign");
     WeixinController = __decorate([
         routing_controllers_1.Controller(),
         typedi_1.Service(),
