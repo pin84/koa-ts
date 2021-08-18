@@ -13,7 +13,7 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
       'http://wx.lzhs.top',
       'http://www.lzhs.top',
       'http://data.lzhs.top',
-      // 'http://localhost:8080', //上线后这个去掉
+      'http://localhost:8080', //上线后这个去掉
     ]
     let index = urlArr.findIndex(url => url == origin)
     context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH')

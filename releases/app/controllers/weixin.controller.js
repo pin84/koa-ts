@@ -97,7 +97,9 @@ var WeixinController = (function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, wxSign_1.sign(url)];
+                    case 0:
+                        console.log('-wx sign --', url);
+                        return [4, wxSign_1.sign(url)];
                     case 1:
                         res = _a.sent();
                         return [2, res];
