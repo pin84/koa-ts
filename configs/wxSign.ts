@@ -26,7 +26,7 @@ export const getTicket = async () => {
   let ticketUrl = `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`
 
   let ticket_data = await axios.get(ticketUrl)
-    console.log('--ticket_data----');
+    console.log('--ticket_data----',ticket_data);
     
 
   let ticket = ticket_data.data.ticket
@@ -92,11 +92,12 @@ export const sign = async (url) => {
   //2)对所有待签名参数按照字段名的ASCII 码从小到大排序（字典序）
   //3)使用URL键值对的格式（即key1=value1&key2=value2…）拼接成字符串string1。这里需要注意的是所有参数名均为小写字符。
   //4)对string1作sha1加密，字段名和字段值都采用原始值，不进行URL 转义。即signature=sha1(string1)
-  console.log('--参与签名的obj--',obj);
   let str = row(obj)
+  console.log('--参与签名的str--',str);
   let signature = sha1(str)
+  console.log('--签名的结果signature--',signature);
 
   obj['signature'] = signature
-
+  
   return Message.success(obj)
 }

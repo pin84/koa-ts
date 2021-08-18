@@ -63,7 +63,7 @@ var getTicket = function () { return __awaiter(void 0, void 0, void 0, function 
                 return [4, axios_1["default"].get(ticketUrl)];
             case 2:
                 ticket_data = _b.sent();
-                console.log('--ticket_data----');
+                console.log('--ticket_data----', ticket_data);
                 ticket = ticket_data.data.ticket;
                 return [2, message_1["default"].success(ticket)];
         }
@@ -115,9 +115,10 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
                     timestamp: createTimestamp(),
                     url: url
                 };
-                console.log('--参与签名的obj--', obj);
                 str = row(obj);
+                console.log('--参与签名的str--', str);
                 signature = utils_1.sha1(str);
+                console.log('--签名的结果signature--', signature);
                 obj['signature'] = signature;
                 return [2, message_1["default"].success(obj)];
         }
