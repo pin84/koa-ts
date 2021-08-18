@@ -109,7 +109,6 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
                     return [2, res];
                 }
                 obj = {
-                    appId: config_1.wx.AppID,
                     noncestr: createNonceStr(),
                     jsapi_ticket: res.data,
                     timestamp: createTimestamp(),
@@ -120,6 +119,7 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
                 signature = utils_1.sha1(str);
                 console.log('--签名的结果signature--', signature);
                 obj['signature'] = signature;
+                obj['appId'] = config_1.wx.AppID;
                 return [2, message_1["default"].success(obj)];
         }
     });

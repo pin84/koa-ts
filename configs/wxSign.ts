@@ -81,7 +81,6 @@ export const sign = async (url) => {
   // 'invalid ip 113.13.154.209 ipv6 ::ffff:113.13.154.209, not in whitelist rid: 6118be01-5078d40f-1184ab91'
 
   let obj = {
-    appId: wx.AppID,
     noncestr: createNonceStr(), //随机字符串
     jsapi_ticket: res.data,
     timestamp: createTimestamp(),
@@ -98,6 +97,7 @@ export const sign = async (url) => {
   console.log('--签名的结果signature--',signature);
 
   obj['signature'] = signature
+  obj['appId'] = wx.AppID
   
   return Message.success(obj)
 }
