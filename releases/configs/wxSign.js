@@ -39,59 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.sign = exports.getTicket = void 0;
+exports.getTicket = exports.sign = void 0;
 var axios_1 = __importDefault(require("axios"));
 var utils_1 = require("./utils");
 var message_1 = __importDefault(require("../app/helpers/message"));
 var config_1 = require("./config");
-console.log('-sfsd--', config_1.wx);
-var getTicket = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var accessTokenUrl, res, _a, errmsg, access_token, ticketUrl, ticket_data, ticket;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                accessTokenUrl = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + config_1.wx.AppID + "&secret=" + config_1.wx.AppSecret;
-                return [4, axios_1["default"].get(accessTokenUrl)];
-            case 1:
-                res = _b.sent();
-                _a = res.data, errmsg = _a.errmsg, access_token = _a.access_token;
-                console.log('---access_token--', res);
-                if (errmsg) {
-                    return [2, message_1["default"].fail(errmsg)];
-                }
-                ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
-                return [4, axios_1["default"].get(ticketUrl)];
-            case 2:
-                ticket_data = _b.sent();
-                console.log('--ticket_data----', ticket_data);
-                ticket = ticket_data.data.ticket;
-                return [2, message_1["default"].success(ticket)];
-        }
-    });
-}); };
-exports.getTicket = getTicket;
-function createNonceStr() {
-    var str = Math.random().toString(36).substr(2, 15);
-    return str;
-}
-function createTimestamp() {
-    var timestamp = new Date().getTime() / 1000 + '';
-    return parseInt(timestamp);
-}
-function row(obj) {
-    var keys = Object.keys(obj);
-    keys.sort();
-    var newObj = {};
-    keys.forEach(function (key) {
-        newObj[key] = obj[key];
-    });
-    var str = '';
-    for (var k in newObj) {
-        str += '&' + k + '=' + newObj[k];
-    }
-    str = str.substr(1);
-    return str;
-}
 var sign = function (url) { return __awaiter(void 0, void 0, void 0, function () {
     var res, code, obj, str, signature;
     return __generator(this, function (_a) {
@@ -114,6 +66,7 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
                     timestamp: createTimestamp(),
                     url: url
                 };
+                console.log('--参与签名的obj--', obj);
                 str = row(obj);
                 console.log('--参与签名的str--', str);
                 signature = utils_1.sha1(str);
@@ -125,3 +78,50 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
     });
 }); };
 exports.sign = sign;
+var getTicket = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var accessTokenUrl, res, _a, errmsg, access_token, ticketUrl, ticket_data, ticket;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                accessTokenUrl = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + config_1.wx.AppID + "&secret=" + config_1.wx.AppSecret;
+                return [4, axios_1["default"].get(accessTokenUrl)];
+            case 1:
+                res = _b.sent();
+                _a = res.data, errmsg = _a.errmsg, access_token = _a.access_token;
+                if (errmsg) {
+                    return [2, message_1["default"].fail(errmsg)];
+                }
+                ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
+                return [4, axios_1["default"].get(ticketUrl)];
+            case 2:
+                ticket_data = _b.sent();
+                ticket = ticket_data.data.ticket;
+                console.log('--ticket---', ticket);
+                return [2, message_1["default"].success(ticket)];
+        }
+    });
+}); };
+exports.getTicket = getTicket;
+function createNonceStr() {
+    var randomstr = Math.random().toString(36);
+    var str = randomstr.substr(2, 17);
+    return str;
+}
+function createTimestamp() {
+    var timestamp = new Date().getTime() / 1000 + '';
+    return parseInt(timestamp);
+}
+function row(obj) {
+    var keys = Object.keys(obj);
+    keys.sort();
+    var newObj = {};
+    keys.forEach(function (key) {
+        newObj[key] = obj[key];
+    });
+    var str = '';
+    for (var k in newObj) {
+        str += '&' + k + '=' + newObj[k];
+    }
+    str = str.substr(1);
+    return str;
+}
