@@ -107,7 +107,7 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
                 }
                 obj = {
                     appId: config_1.wx.AppID,
-                    noncestr: createNonceStr(),
+                    nonceStr: createNonceStr(),
                     jsapi_ticket: res.data,
                     timestamp: createTimestamp(),
                     url: url

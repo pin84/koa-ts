@@ -76,7 +76,7 @@ export const sign = async (url) => {
 
   let obj = {
     appId: wx.AppID,
-    noncestr: createNonceStr(), //随机字符串
+    nonceStr: createNonceStr(), //随机字符串
     jsapi_ticket: res.data,
     timestamp: createTimestamp(),
     url, // 当前网页的URL，不包含#及其后面部分
