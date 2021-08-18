@@ -55,6 +55,7 @@ var getTicket = function () { return __awaiter(void 0, void 0, void 0, function 
             case 1:
                 res = _b.sent();
                 _a = res.data, errmsg = _a.errmsg, access_token = _a.access_token;
+                console.log('---access_token--', res);
                 if (errmsg) {
                     return [2, message_1["default"].fail(errmsg)];
                 }
@@ -62,6 +63,7 @@ var getTicket = function () { return __awaiter(void 0, void 0, void 0, function 
                 return [4, axios_1["default"].get(ticketUrl)];
             case 2:
                 ticket_data = _b.sent();
+                console.log('--ticket_data----');
                 ticket = ticket_data.data.ticket;
                 return [2, message_1["default"].success(ticket)];
         }
@@ -101,17 +103,19 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
                 return [4, exports.getTicket()];
             case 1:
                 res = _a.sent();
+                console.log('---jsapi_ticket--', res);
                 code = res.code;
                 if (code < 0) {
                     return [2, res];
                 }
                 obj = {
                     appId: config_1.wx.AppID,
-                    nonceStr: createNonceStr(),
+                    noncestr: createNonceStr(),
                     jsapi_ticket: res.data,
                     timestamp: createTimestamp(),
                     url: url
                 };
+                console.log('--参与签名的obj--', obj);
                 str = row(obj);
                 signature = utils_1.sha1(str);
                 obj['signature'] = signature;
