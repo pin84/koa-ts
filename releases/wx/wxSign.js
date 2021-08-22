@@ -39,12 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.getTicket = exports.sign = void 0;
-var axios_1 = __importDefault(require("axios"));
-var utils_1 = require("./utils");
+exports.sign = void 0;
+var utils_1 = require("../configs/utils");
 var message_1 = __importDefault(require("../app/helpers/message"));
-var config_1 = require("./config");
-var redisConnection_1 = __importDefault(require("../redis/redisConnection"));
+var config_1 = require("../configs/config");
+var getTicket_1 = __importDefault(require("./getTicket"));
 var sign = function (url) { return __awaiter(void 0, void 0, void 0, function () {
     var res, code, obj, str, signature;
     return __generator(this, function (_a) {
@@ -53,7 +52,7 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
                 if (!url) {
                     return [2, message_1["default"].fail('请传入URL参数')];
                 }
-                return [4, exports.getTicket()];
+                return [4, getTicket_1["default"]()];
             case 1:
                 res = _a.sent();
                 console.log('---jsapi_ticket--', res);
@@ -79,43 +78,6 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
     });
 }); };
 exports.sign = sign;
-var getTicket = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var access_token, accessTokenUrl, res, errmsg, ticket, ticketUrl, ticket_data;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4, redisConnection_1["default"].get('access_token')];
-            case 1:
-                access_token = _a.sent();
-                if (!!access_token) return [3, 3];
-                accessTokenUrl = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + config_1.wx.AppID + "&secret=" + config_1.wx.AppSecret;
-                return [4, axios_1["default"].get(accessTokenUrl)];
-            case 2:
-                res = _a.sent();
-                errmsg = res.data.errmsg;
-                access_token = res.data.access_token;
-                redisConnection_1["default"].set('access_token', access_token, 'EX', 300);
-                console.log('---access_token--', res);
-                if (errmsg) {
-                    return [2, message_1["default"].fail(errmsg)];
-                }
-                _a.label = 3;
-            case 3: return [4, redisConnection_1["default"].get('ticket')];
-            case 4:
-                ticket = _a.sent();
-                if (!!ticket) return [3, 6];
-                ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
-                return [4, axios_1["default"].get(ticketUrl)];
-            case 5:
-                ticket_data = _a.sent();
-                ticket = ticket_data.data.ticket;
-                redisConnection_1["default"].set('ticket', ticket, 'EX', 300);
-                console.log('--ticket---', ticket);
-                _a.label = 6;
-            case 6: return [2, message_1["default"].success(ticket)];
-        }
-    });
-}); };
-exports.getTicket = getTicket;
 function createNonceStr() {
     var randomstr = Math.random().toString(36);
     var str = randomstr.substr(2, 17);

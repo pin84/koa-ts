@@ -19,7 +19,7 @@ import { Service } from 'typedi'
 
 import Message from '../helpers/message'
 import { sha1 } from 'configs/utils'
-import { getTicket, sign } from 'configs/wxSign'
+import {  sign } from 'wx/wxSign'
 import redis from '../../redis/redisConnection'
 
 

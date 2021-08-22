@@ -1,20 +1,15 @@
 
-import axios from 'axios'
-import { sha1 } from './utils'
+import { sha1 } from '../configs/utils'
 import Message from '../app/helpers/message'
-import { wx } from './config'
-import redis from '../redis/redisConnection'
-
+import { wx } from '../configs/config'
+import getTicket from './getTicket'
 
 export const sign = async (url) => {
   if (!url) {
     return Message.fail('请传入URL参数')
   }
-
   let res = await getTicket()
-
   console.log('---jsapi_ticket--', res);
-
   let { code } = res
   if (code < 0) {
     return res
@@ -43,37 +38,6 @@ export const sign = async (url) => {
 
   return Message.success(obj)
 }
-
-export const getTicket = async () => {
-
-  let access_token = await redis.get('access_token')
-
-  if (!access_token) {
-    let accessTokenUrl = ` https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${wx.AppID}&secret=${wx.AppSecret}`
-    let res = await axios.get(accessTokenUrl)
-    let { errmsg } = res.data
-    access_token = res.data.access_token
-    redis.set('access_token', access_token, 'EX', 300)
-    console.log('---access_token--', res);
-    if (errmsg) {
-      return Message.fail(errmsg)
-    }
-  }
-
-  let ticket = await redis.get('ticket')
-  if (!ticket) {
-    let ticketUrl = `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`
-
-    let ticket_data = await axios.get(ticketUrl)
-    // console.log('--ticket_data----',ticket_data);
-    ticket = ticket_data.data.ticket
-    redis.set('ticket', ticket, 'EX', 300)
-    console.log('--ticket---', ticket);
-  }
-  return Message.success(ticket)
-}
-
-
 
 function createNonceStr() {
   let randomstr = Math.random().toString(36)
