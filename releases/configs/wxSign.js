@@ -83,32 +83,35 @@ var getTicket = function () { return __awaiter(void 0, void 0, void 0, function 
     var access_token, accessTokenUrl, res, errmsg, ticket, ticketUrl, ticket_data;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                access_token = redisConnection_1["default"].get('access_token');
-                if (!!access_token) return [3, 2];
+            case 0: return [4, redisConnection_1["default"].get('access_token')];
+            case 1:
+                access_token = _a.sent();
+                if (!!access_token) return [3, 3];
                 accessTokenUrl = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + config_1.wx.AppID + "&secret=" + config_1.wx.AppSecret;
                 return [4, axios_1["default"].get(accessTokenUrl)];
-            case 1:
+            case 2:
                 res = _a.sent();
                 errmsg = res.data.errmsg;
                 access_token = res.data.access_token;
                 redisConnection_1["default"].set('access_token', access_token, 'EX', 300);
+                console.log('---access_token--', res);
                 if (errmsg) {
                     return [2, message_1["default"].fail(errmsg)];
                 }
-                _a.label = 2;
-            case 2:
-                ticket = redisConnection_1["default"].get('ticket');
-                if (!!ticket) return [3, 4];
+                _a.label = 3;
+            case 3: return [4, redisConnection_1["default"].get('ticket')];
+            case 4:
+                ticket = _a.sent();
+                if (!!ticket) return [3, 6];
                 ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
                 return [4, axios_1["default"].get(ticketUrl)];
-            case 3:
+            case 5:
                 ticket_data = _a.sent();
                 ticket = ticket_data.data.ticket;
                 redisConnection_1["default"].set('ticket', ticket, 'EX', 300);
                 console.log('--ticket---', ticket);
-                _a.label = 4;
-            case 4: return [2, message_1["default"].success(ticket)];
+                _a.label = 6;
+            case 6: return [2, message_1["default"].success(ticket)];
         }
     });
 }); };

@@ -100,7 +100,6 @@ var WeixinController = (function () {
                     case 0: return [4, wxSign_1.sign(signUrl)];
                     case 1:
                         res = _a.sent();
-                        console.log('-wx sign --', res);
                         return [2, res];
                 }
             });

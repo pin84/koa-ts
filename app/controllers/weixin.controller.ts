@@ -62,7 +62,7 @@ export class WeixinController {
   @Get('/wx/sign')
   async sign(@QueryParam('signUrl') signUrl:String) {
     let res = await sign(signUrl)
-    console.log('-wx sign --',res);
+    // console.log('-wx sign --',res);
     return res
   }
 

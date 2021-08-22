@@ -46,7 +46,7 @@ export const sign = async (url) => {
 
 export const getTicket = async () => {
 
-  let access_token = redis.get('access_token')
+  let access_token = await redis.get('access_token')
 
   if (!access_token) {
     let accessTokenUrl = ` https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${wx.AppID}&secret=${wx.AppSecret}`
@@ -54,13 +54,13 @@ export const getTicket = async () => {
     let { errmsg } = res.data
     access_token = res.data.access_token
     redis.set('access_token', access_token, 'EX', 300)
-    // console.log('---access_token--',res);
+    console.log('---access_token--', res);
     if (errmsg) {
       return Message.fail(errmsg)
     }
   }
 
-  let ticket = redis.get('ticket')
+  let ticket = await redis.get('ticket')
   if (!ticket) {
     let ticketUrl = `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`
 
