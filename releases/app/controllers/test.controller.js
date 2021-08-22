@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -51,92 +48,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.WeixinController = void 0;
+exports.Test = void 0;
 var routing_controllers_1 = require("routing-controllers");
 var services_1 = require("../services");
 var typedi_1 = require("typedi");
 var message_1 = __importDefault(require("../helpers/message"));
-var utils_1 = require("../../configs/utils");
-var wxSign_1 = require("../../configs/wxSign");
 var redisConnection_1 = __importDefault(require("../../redis/redisConnection"));
-var raw_body_1 = __importDefault(require("raw-body"));
-var WeixinController = (function () {
-    function WeixinController(AthenaService) {
+var Test = (function () {
+    function Test(AthenaService) {
         this.AthenaService = AthenaService;
     }
-    WeixinController.prototype.tokenVerify = function (signature, nonce, timestamp, echostr) {
-        var token = 'lzhstop';
-        var str = [token, timestamp, nonce].sort().join('');
-        var sha = utils_1.sha1(str);
-        if (sha == signature) {
-            console.log('===true===', echostr);
-            return echostr;
-        }
-        else {
-            return 'wrong';
-        }
+    Test.prototype.test = function () {
+        return '---test  api----';
     };
-    WeixinController.prototype.test = function (Content) {
+    Test.prototype.testRedis = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var bb;
+            var res1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, raw_body_1["default"](Content.req, {
-                            encoding: 'utf-8'
-                        })];
+                    case 0: return [4, redisConnection_1["default"].get('str2')];
                     case 1:
-                        bb = _a.sent();
-                        console.log('--ssdf--', bb);
-                        return [2, 'hello world ! '];
-                }
-            });
-        });
-    };
-    WeixinController.prototype.sign = function (signUrl) {
-        return __awaiter(this, void 0, void 0, function () {
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, wxSign_1.sign(signUrl)];
-                    case 1:
-                        res = _a.sent();
-                        console.log('-wx sign --', res);
-                        return [2, res];
+                        res1 = _a.sent();
+                        console.log(res1);
+                        return [2, 'redis'];
                 }
             });
         });
     };
     __decorate([
-        routing_controllers_1.Get('/wx/'),
-        __param(0, routing_controllers_1.QueryParam('signature')),
-        __param(1, routing_controllers_1.QueryParam('nonce')),
-        __param(2, routing_controllers_1.QueryParam('timestamp')),
-        __param(3, routing_controllers_1.QueryParam('echostr')),
+        routing_controllers_1.Get('/'),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [String,
-            Number,
-            Number, String]),
+        __metadata("design:paramtypes", []),
         __metadata("design:returntype", void 0)
-    ], WeixinController.prototype, "tokenVerify");
+    ], Test.prototype, "test");
     __decorate([
-        routing_controllers_1.Post('/wx/'),
-        __param(0, routing_controllers_1.Ctx()),
+        routing_controllers_1.Get('/test/redis'),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object]),
+        __metadata("design:paramtypes", []),
         __metadata("design:returntype", Promise)
-    ], WeixinController.prototype, "test");
-    __decorate([
-        routing_controllers_1.Get('/wx/sign'),
-        __param(0, routing_controllers_1.QueryParam('signUrl')),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [String]),
-        __metadata("design:returntype", Promise)
-    ], WeixinController.prototype, "sign");
-    WeixinController = __decorate([
-        routing_controllers_1.Controller(),
+    ], Test.prototype, "testRedis");
+    Test = __decorate([
+        routing_controllers_1.JsonController(),
         typedi_1.Service(),
         __metadata("design:paramtypes", [services_1.AthenaService])
-    ], WeixinController);
-    return WeixinController;
+    ], Test);
+    return Test;
 }());
-exports.WeixinController = WeixinController;
+exports.Test = Test;

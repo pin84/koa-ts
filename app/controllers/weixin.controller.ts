@@ -20,7 +20,7 @@ import { Service } from 'typedi'
 import Message from '../helpers/message'
 import { sha1 } from 'configs/utils'
 import { getTicket, sign } from 'configs/wxSign'
-
+import redis from '../../redis/redisConnection'
 
 
 import getRawBody from 'raw-body'
@@ -30,6 +30,7 @@ import getRawBody from 'raw-body'
 @Service()
 export class WeixinController {
   constructor(private AthenaService: AthenaService) { }
+  
   @Get('/wx/')
   tokenVerify(@QueryParam('signature') signature: String,
     @QueryParam('nonce') nonce: Number,
@@ -42,7 +43,6 @@ export class WeixinController {
       console.log('===true===', echostr);
       return echostr;
     } else {
-      debugger
       return 'wrong';
     }
   }
@@ -61,11 +61,8 @@ export class WeixinController {
 
   @Get('/wx/sign')
   async sign(@QueryParam('signUrl') signUrl:String) {
-    
     let res = await sign(signUrl)
     console.log('-wx sign --',res);
-
-
     return res
   }
 

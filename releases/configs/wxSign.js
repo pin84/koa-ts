@@ -44,6 +44,7 @@ var axios_1 = __importDefault(require("axios"));
 var utils_1 = require("./utils");
 var message_1 = __importDefault(require("../app/helpers/message"));
 var config_1 = require("./config");
+var redisConnection_1 = __importDefault(require("../redis/redisConnection"));
 var sign = function (url) { return __awaiter(void 0, void 0, void 0, function () {
     var res, code, obj, str, signature;
     return __generator(this, function (_a) {
@@ -79,25 +80,35 @@ var sign = function (url) { return __awaiter(void 0, void 0, void 0, function ()
 }); };
 exports.sign = sign;
 var getTicket = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var accessTokenUrl, res, _a, errmsg, access_token, ticketUrl, ticket_data, ticket;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var access_token, accessTokenUrl, res, errmsg, ticket, ticketUrl, ticket_data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
+                access_token = redisConnection_1["default"].get('access_token');
+                if (!!access_token) return [3, 2];
                 accessTokenUrl = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + config_1.wx.AppID + "&secret=" + config_1.wx.AppSecret;
                 return [4, axios_1["default"].get(accessTokenUrl)];
             case 1:
-                res = _b.sent();
-                _a = res.data, errmsg = _a.errmsg, access_token = _a.access_token;
+                res = _a.sent();
+                errmsg = res.data.errmsg;
+                access_token = res.data.access_token;
+                redisConnection_1["default"].set('access_token', access_token, 'EX', 300);
                 if (errmsg) {
                     return [2, message_1["default"].fail(errmsg)];
                 }
+                _a.label = 2;
+            case 2:
+                ticket = redisConnection_1["default"].get('ticket');
+                if (!!ticket) return [3, 4];
                 ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + access_token + "&type=jsapi";
                 return [4, axios_1["default"].get(ticketUrl)];
-            case 2:
-                ticket_data = _b.sent();
+            case 3:
+                ticket_data = _a.sent();
                 ticket = ticket_data.data.ticket;
+                redisConnection_1["default"].set('ticket', ticket, 'EX', 300);
                 console.log('--ticket---', ticket);
-                return [2, message_1["default"].success(ticket)];
+                _a.label = 4;
+            case 4: return [2, message_1["default"].success(ticket)];
         }
     });
 }); };

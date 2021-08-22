@@ -13,15 +13,14 @@ import { Service } from 'typedi'
 
 import Message from '../helpers/message'
 
+import redis from '../../redis/redisConnection'
+
 
 @JsonController()
 @Service()
 export class AthenaController {
   constructor(private AthenaService: AthenaService) { }
-  @Get('/')
-  test() {
-    return '---test  api----'
-  }
+
   @Get('/user/logout')
   userlogout(@QueryParam('token') token: string) {
     return 'this.AthenaService.userlogout(token)'
