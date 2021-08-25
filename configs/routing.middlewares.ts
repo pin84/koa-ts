@@ -8,6 +8,9 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
 
   async use(context: any, next: (err?: any) => any): Promise<any> {
     let origin = context.request.header.origin
+
+    console.log('--origin----',origin);
+    
     let urlArr = [
       'http://lzhs.top',
       'http://wx.lzhs.top',
