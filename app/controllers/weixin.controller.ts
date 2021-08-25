@@ -19,18 +19,48 @@ import { Service } from 'typedi'
 
 import Message from '../helpers/message'
 import { sha1 } from 'configs/utils'
-import {  sign } from 'wx/wxSign'
+import { sign } from 'wx/wxSign'
 import redis from '../../redis/redisConnection'
 
 
 import getRawBody from 'raw-body'
+import axios from 'axios'
+import getAccessToken from 'wx/getAccessToken'
+import { wx } from '../../configs/config'
+import {upload} from '../helpers/file'
+// const uploadOpts = uploads.options;
+
+// console.log(uploadOpts);
+
 
 
 @Controller()
 @Service()
 export class WeixinController {
   constructor(private AthenaService: AthenaService) { }
+
+
+
+  @Post('/wx/upload')
+  async uploadImg(@UploadedFile('fileName', { options: upload }) file: any) {
+  // async uploadImg(@UploadedFile('fileName') file: any) {
+
+  console.log(file);
   
+
+
+    return 'hello world ! '
+  }
+
+  @Post('/wx/setbuttom')
+  async setButtom() {
+    let access_token = await getAccessToken()
+    let url = ` https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}`
+    let res = await axios.post(url, wx.buttomobj)
+    return res.data
+  }
+
+
   @Get('/wx/')
   tokenVerify(@QueryParam('signature') signature: String,
     @QueryParam('nonce') nonce: Number,
@@ -40,7 +70,7 @@ export class WeixinController {
     let str = [token, timestamp, nonce].sort().join('');
     let sha = sha1(str);
     if (sha == signature) {
-      console.log('===true===', echostr);
+      // console.log('===true===', echostr);
       return echostr;
     } else {
       return 'wrong';
@@ -59,8 +89,9 @@ export class WeixinController {
   }
 
 
+
   @Get('/wx/sign')
-  async sign(@QueryParam('signUrl') signUrl:String) {
+  async sign(@QueryParam('signUrl') signUrl: String) {
     let res = await sign(signUrl)
     // console.log('-wx sign --',res);
     return res

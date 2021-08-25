@@ -11,7 +11,7 @@ export default async function () {
     let { errmsg } = res.data
     access_token = res.data.access_token
     redis.set('access_token', access_token, 'EX', 300)
-    console.log('---access_token--', res);
+    console.log('---access_token--', res.data);
     if (errmsg) {
       return Message.fail(errmsg)
     }

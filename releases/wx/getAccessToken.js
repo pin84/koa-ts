@@ -59,7 +59,7 @@ function default_1() {
                     errmsg = res.data.errmsg;
                     access_token = res.data.access_token;
                     redisConnection_1["default"].set('access_token', access_token, 'EX', 300);
-                    console.log('---access_token--', res);
+                    console.log('---access_token--', res.data);
                     if (errmsg) {
                         return [2, message_1["default"].fail(errmsg)];
                     }

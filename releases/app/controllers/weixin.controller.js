@@ -60,16 +60,44 @@ var utils_1 = require("../../configs/utils");
 var wxSign_1 = require("../../wx/wxSign");
 var redisConnection_1 = __importDefault(require("../../redis/redisConnection"));
 var raw_body_1 = __importDefault(require("raw-body"));
+var axios_1 = __importDefault(require("axios"));
+var getAccessToken_1 = __importDefault(require("../../wx/getAccessToken"));
+var config_1 = require("../../configs/config");
+var file_1 = require("../helpers/file");
 var WeixinController = (function () {
     function WeixinController(AthenaService) {
         this.AthenaService = AthenaService;
     }
+    WeixinController.prototype.uploadImg = function (file) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                console.log(file);
+                return [2, 'hello world ! '];
+            });
+        });
+    };
+    WeixinController.prototype.setButtom = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var access_token, url, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, getAccessToken_1["default"]()];
+                    case 1:
+                        access_token = _a.sent();
+                        url = " https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + access_token;
+                        return [4, axios_1["default"].post(url, config_1.wx.buttomobj)];
+                    case 2:
+                        res = _a.sent();
+                        return [2, res.data];
+                }
+            });
+        });
+    };
     WeixinController.prototype.tokenVerify = function (signature, nonce, timestamp, echostr) {
         var token = 'lzhstop';
         var str = [token, timestamp, nonce].sort().join('');
         var sha = utils_1.sha1(str);
         if (sha == signature) {
-            console.log('===true===', echostr);
             return echostr;
         }
         else {
@@ -105,6 +133,19 @@ var WeixinController = (function () {
             });
         });
     };
+    __decorate([
+        routing_controllers_1.Post('/wx/upload'),
+        __param(0, routing_controllers_1.UploadedFile('fileName', { options: file_1.upload })),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], WeixinController.prototype, "uploadImg");
+    __decorate([
+        routing_controllers_1.Post('/wx/setbuttom'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", Promise)
+    ], WeixinController.prototype, "setButtom");
     __decorate([
         routing_controllers_1.Get('/wx/'),
         __param(0, routing_controllers_1.QueryParam('signature')),
