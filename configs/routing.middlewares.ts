@@ -11,6 +11,7 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
     let urlArr = [
       'http://lzhs.top',
       'http://wx.lzhs.top',
+      'http://wx.lzhs.top/#',
       'http://www.lzhs.top',
       'http://data.lzhs.top',
       'http://4212225c65.oicp.vip',
