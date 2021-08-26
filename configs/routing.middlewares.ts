@@ -8,7 +8,7 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
 
   async use(context: any, next: (err?: any) => any): Promise<any> {
     let origin = context.request.header.origin
-    console.log('--origin----',origin,context.request.req.method);
+    console.log('--origin----', origin, context.request.req.method);
     let urlArr = [
       'http://lzhs.top',
       'http://wx.lzhs.top',
@@ -24,7 +24,9 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
     context.set('Access-Control-Allow-Origin', '*')
     // context.set('Access-Control-Allow-Origin', context.request.header.origin)
     // context.set('Access-Control-Allow-Origin', `${urlArr[index]}`)
-    context.set('Access-Control-Allow-Headers', ['content-type'])
+    // context.set('Access-Control-Allow-Headers', ['content-type'])
+    // context.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild')
+    context.set('Access-Control-Allow-Headers', '*')
     context.set('Access-Control-Allow-Credentials', 'true')
     context.set('Content-Type', 'application/json; charset=utf-8')
     return next()
