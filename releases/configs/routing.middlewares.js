@@ -54,6 +54,7 @@ var HeaderMiddleware = (function () {
             return __generator(this, function (_a) {
                 origin = context.request.header.origin;
                 console.log('--origin----', origin);
+                console.log('aa');
                 urlArr = [
                     'http://lzhs.top',
                     'http://wx.lzhs.top',
@@ -65,7 +66,7 @@ var HeaderMiddleware = (function () {
                 ];
                 index = urlArr.findIndex(function (url) { return url == origin; });
                 context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH');
-                context.set('Access-Control-Allow-Origin', context.request.header.origin);
+                context.set('Access-Control-Allow-Origin', '*');
                 context.set('Access-Control-Allow-Headers', ['content-type']);
                 context.set('Access-Control-Allow-Credentials', 'true');
                 context.set('Content-Type', 'application/json; charset=utf-8');
