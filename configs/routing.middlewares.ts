@@ -20,15 +20,19 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
     ]
     let index = urlArr.findIndex(url => url == origin)
     // context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS')
-    context.set('Access-Control-Allow-Methods', '*')
+    context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS")
     context.set('Access-Control-Allow-Origin', '*')
     // context.set('Access-Control-Allow-Origin', context.request.header.origin)
     // context.set('Access-Control-Allow-Origin', `${urlArr[index]}`)
     // context.set('Access-Control-Allow-Headers', ['content-type'])
-    // context.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild')
-    context.set('Access-Control-Allow-Headers', '*')
+  
+    context.set("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE")
     context.set('Access-Control-Allow-Credentials', 'true')
     context.set('Content-Type', 'application/json; charset=utf-8')
+    // context.set("Access-Control-Expose-Headers", "Date") //设置可以向外暴露的响应头的参数。这里请求中可以拿到服务器的时间
+
+
+      //前台请求时 credentials: 'include', 所以这一项的值不能这通配符 *
     return next()
   }
 }
