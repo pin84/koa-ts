@@ -65,7 +65,7 @@ var HeaderMiddleware = (function () {
                     'http://localhost:8080',
                 ];
                 index = urlArr.findIndex(function (url) { return url == origin; });
-                context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH');
+                context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH，OPTIONS');
                 context.set('Access-Control-Allow-Origin', '*');
                 context.set('Access-Control-Allow-Headers', ['content-type']);
                 context.set('Access-Control-Allow-Credentials', 'true');
