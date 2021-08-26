@@ -5,8 +5,11 @@ import { routingConfigs } from './routing.options'
 import { useMiddlewares } from './koa.middlewares'
 import { useKoaServer, useContainer } from 'routing-controllers'
 
+
 const createServer = async (): Promise<Koa> => {
   const koa: Koa = new Koa()
+
+  // const vConsole = new VConsole();
 
   useMiddlewares(koa)
 
