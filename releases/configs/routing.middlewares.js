@@ -53,8 +53,7 @@ var HeaderMiddleware = (function () {
             var origin, urlArr, index;
             return __generator(this, function (_a) {
                 origin = context.request.header.origin;
-                console.log('--origin----', origin);
-                console.log('aa');
+                console.log('--origin----', origin, context.request.req.method);
                 urlArr = [
                     'http://lzhs.top',
                     'http://wx.lzhs.top',
@@ -65,7 +64,7 @@ var HeaderMiddleware = (function () {
                     'http://localhost:8080',
                 ];
                 index = urlArr.findIndex(function (url) { return url == origin; });
-                context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS');
+                context.set('Access-Control-Allow-Methods', '*');
                 context.set('Access-Control-Allow-Origin', '*');
                 context.set('Access-Control-Allow-Headers', ['content-type']);
                 context.set('Access-Control-Allow-Credentials', 'true');

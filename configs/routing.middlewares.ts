@@ -8,12 +8,7 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
 
   async use(context: any, next: (err?: any) => any): Promise<any> {
     let origin = context.request.header.origin
-
-    console.log('--origin----',origin);
-    
-
-    console.log('aa');
-    
+    console.log('--origin----',origin,context.request.req.method);
     let urlArr = [
       'http://lzhs.top',
       'http://wx.lzhs.top',
@@ -24,7 +19,8 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
       'http://localhost:8080', //上线后这个去掉
     ]
     let index = urlArr.findIndex(url => url == origin)
-    context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS')
+    // context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS')
+    context.set('Access-Control-Allow-Methods', '*')
     context.set('Access-Control-Allow-Origin', '*')
     // context.set('Access-Control-Allow-Origin', context.request.header.origin)
     // context.set('Access-Control-Allow-Origin', `${urlArr[index]}`)
