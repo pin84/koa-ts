@@ -11,7 +11,7 @@ export default async function () {
     let ticketUrl = `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`
 
     let ticket_data = await axios.get(ticketUrl)
-    // console.log('--ticket_data----',ticket_data);
+    console.log('--ticket_data----',ticket_data);
     ticket = ticket_data.data.ticket
     redis.set('ticket', ticket, 'EX', 300)
     console.log('--ticket---', ticket);

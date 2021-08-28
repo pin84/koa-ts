@@ -59,6 +59,7 @@ function default_1() {
                     return [4, axios_1["default"].get(ticketUrl)];
                 case 3:
                     ticket_data = _a.sent();
+                    console.log('--ticket_data----', ticket_data);
                     ticket = ticket_data.data.ticket;
                     redisConnection_1["default"].set('ticket', ticket, 'EX', 300);
                     console.log('--ticket---', ticket);

@@ -92,6 +92,8 @@ export class WeixinController {
 
   @Get('/wx/sign')
   async sign(@QueryParam('signUrl') signUrl: String) {
+    console.log('asdf');
+    
     let res = await sign(signUrl)
     // console.log('-wx sign --',res);
     return res

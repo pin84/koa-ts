@@ -19,13 +19,11 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
       'http://localhost:8080', //上线后这个去掉
     ]
     let index = urlArr.findIndex(url => url == origin)
-    // context.set('Access-Control-Allow-Methods', 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS')
-    context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS")
+    context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,HEAD,OPTIONS")
     context.set('Access-Control-Allow-Origin', '*')
     // context.set('Access-Control-Allow-Origin', context.request.header.origin)
     // context.set('Access-Control-Allow-Origin', `${urlArr[index]}`)
     // context.set('Access-Control-Allow-Headers', ['content-type'])
-  
     context.set("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE")
     context.set('Access-Control-Allow-Credentials', 'true')
     context.set('Content-Type', 'application/json; charset=utf-8')
