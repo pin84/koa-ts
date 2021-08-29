@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.getRedisConfig = exports.wx = void 0;
+exports.baseURL = exports.setPath = exports.getRedisConfig = exports.wx = void 0;
 var wx = {
     token: 'lzhstop',
     AppID: 'wxce4a169091306766',
@@ -39,3 +39,18 @@ var getRedisConfig = {
     db: 0
 };
 exports.getRedisConfig = getRedisConfig;
+var setPath = function () {
+    console.log('======ENV===', process.env.NODE_ENV);
+    var path = '';
+    var env = process.env.NODE_ENV;
+    if (env == 'development') {
+        path = '/users/upload';
+    }
+    else {
+        path = '/usr/myapp/upload';
+    }
+    return path;
+};
+exports.setPath = setPath;
+var baseURL = 'http://static.lzhs.top/upload';
+exports.baseURL = baseURL;

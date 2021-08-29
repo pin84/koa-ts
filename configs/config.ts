@@ -36,7 +36,24 @@ const getRedisConfig = {
   family: 4, // 4 (IPv4) or 6 (IPv6)
   db: 0,
 }
+
+const setPath = () => {
+  console.log('======ENV===', process.env.NODE_ENV);
+  let path = ''
+  let env = process.env.NODE_ENV
+  if (env == 'development') {
+    path = '/users/upload'
+  } else {
+    path = '/usr/myapp/upload'
+  }
+  return path
+}
+
+const baseURL = 'http://static.lzhs.top/upload'
+
 export {
   wx,
-  getRedisConfig
+  getRedisConfig,
+  setPath,
+  baseURL
 }

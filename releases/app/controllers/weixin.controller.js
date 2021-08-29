@@ -70,9 +70,12 @@ var WeixinController = (function () {
     }
     WeixinController.prototype.uploadImg = function (file) {
         return __awaiter(this, void 0, void 0, function () {
+            var filename, url;
             return __generator(this, function (_a) {
-                console.log(file);
-                return [2, 'hello world ! '];
+                filename = file.filename;
+                url = config_1.baseURL + '/' + filename;
+                console.log('--upload---', url);
+                return [2, message_1["default"].success(url)];
             });
         });
     };
@@ -125,9 +128,7 @@ var WeixinController = (function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log('asdf');
-                        return [4, wxSign_1.sign(signUrl)];
+                    case 0: return [4, wxSign_1.sign(signUrl)];
                     case 1:
                         res = _a.sent();
                         return [2, res];

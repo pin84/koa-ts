@@ -26,8 +26,8 @@ import redis from '../../redis/redisConnection'
 import getRawBody from 'raw-body'
 import axios from 'axios'
 import getAccessToken from 'wx/getAccessToken'
-import { wx } from '../../configs/config'
-import {upload} from '../helpers/file'
+import { wx, setPath, baseURL } from '../../configs/config'
+import { upload } from '../helpers/file'
 // const uploadOpts = uploads.options;
 
 // console.log(uploadOpts);
@@ -43,13 +43,12 @@ export class WeixinController {
 
   @Post('/wx/upload')
   async uploadImg(@UploadedFile('fileName', { options: upload }) file: any) {
-  // async uploadImg(@UploadedFile('fileName') file: any) {
+    // async uploadImg(@UploadedFile('fileName') file: any) {
+      let { filename } = file
+      let url = baseURL + '/' + filename
+      console.log('--upload---', url);
 
-  console.log(file);
-  
-
-
-    return 'hello world ! '
+    return Message.success(url)
   }
 
   @Post('/wx/setbuttom')
@@ -92,8 +91,6 @@ export class WeixinController {
 
   @Get('/wx/sign')
   async sign(@QueryParam('signUrl') signUrl: String) {
-    console.log('asdf');
-    
     let res = await sign(signUrl)
     // console.log('-wx sign --',res);
     return res

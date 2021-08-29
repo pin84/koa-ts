@@ -5,25 +5,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 exports.upload = void 0;
 var multer_1 = __importDefault(require("multer"));
+var config_1 = require("../../configs/config");
 var storage = multer_1["default"].diskStorage({
     destination: function (req, file, cb) {
-        console.log('======ENV===', process.env.NODE_ENV);
-        var path = '';
-        var env = process.env.NODE_ENV;
-        if (env == 'development') {
-            path = '/users/upload';
-        }
-        else {
-            path = '/usr/myapp/upload';
-        }
+        var path = config_1.setPath();
         cb(null, path);
     },
     filename: function (req, file, cb) {
         var uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         var mimetype = file.mimetype, originalname = file.originalname;
         console.log('--file---', file);
+        var ts = new Date().getTime() + '';
         var type = mimetype.split('/')[1];
-        cb(null, originalname + '.' + type);
+        cb(null, ts + '.' + type);
     }
 });
 var limits = {

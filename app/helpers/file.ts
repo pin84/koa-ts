@@ -1,26 +1,22 @@
 import multer from "multer";
 import fs from 'fs'
 import path from 'path'
+import { setPath } from "configs/config";
+
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		// cb(null, 'tmp/uploads')
-		console.log('======ENV===', process.env.NODE_ENV);
-		let path = ''
-		let env = process.env.NODE_ENV
-		if (env == 'development') {
-			path = '/users/upload'
-		} else {
-			path = '/usr/myapp/upload'
-		}
+		let path = setPath()
 		cb(null, path)
 	},
 	filename: function (req, file, cb) {
 		const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
 		let { mimetype, originalname } = file
 		console.log('--file---',file);
+		let ts = new Date().getTime() + ''
 		
 		let type = mimetype.split('/')[1]
-		cb(null, originalname + '.' + type)
+		cb(null, ts  +'.' + type)
 	}
 })
 
