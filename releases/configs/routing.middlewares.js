@@ -50,12 +50,20 @@ var HeaderMiddleware = (function () {
     }
     HeaderMiddleware.prototype.use = function (context, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var origin;
+            var origin, urlArr, index;
             return __generator(this, function (_a) {
                 origin = context.request.header.origin;
                 console.log('--origin----', origin, context.request.req.method);
+                urlArr = [
+                    'http://lzhs.top',
+                    'http://wx.lzhs.top',
+                    'http://data.lzhs.top',
+                    'http://4212225c65.oicp.vip',
+                    'http://localhost:8080',
+                ];
+                index = urlArr.findIndex(function (url) { return url == origin; });
                 context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,HEAD,OPTIONS");
-                context.set('Access-Control-Allow-Origin', '*');
+                context.set('Access-Control-Allow-Origin', "" + urlArr[index]);
                 context.set("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE");
                 context.set('Access-Control-Allow-Credentials', 'true');
                 context.set('Content-Type', 'application/json; charset=utf-8');

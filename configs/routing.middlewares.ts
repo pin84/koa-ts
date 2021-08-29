@@ -9,18 +9,18 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
   async use(context: any, next: (err?: any) => any): Promise<any> {
     let origin = context.request.header.origin
     console.log('--origin----', origin, context.request.req.method);
-    // let urlArr = [
-    //   'http://lzhs.top',
-    //   'http://wx.lzhs.top',
-    //   'http://data.lzhs.top',
-    //   'http://4212225c65.oicp.vip',
-    //   // 'http://localhost:8080', //上线后这个去掉
-    // ]
-    // let index = urlArr.findIndex(url => url == origin)
+    let urlArr = [
+      'http://lzhs.top',
+      'http://wx.lzhs.top',
+      'http://data.lzhs.top',
+      'http://4212225c65.oicp.vip',
+      'http://localhost:8080', //上线后这个去掉
+    ]
+    let index = urlArr.findIndex(url => url == origin)
     context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,HEAD,OPTIONS")
-    context.set('Access-Control-Allow-Origin', '*')
+    // context.set('Access-Control-Allow-Origin', '*')
     // context.set('Access-Control-Allow-Origin', context.request.header.origin)
-    // context.set('Access-Control-Allow-Origin', `${urlArr[index]}`)
+    context.set('Access-Control-Allow-Origin', `${urlArr[index]}`)
     // context.set('Access-Control-Allow-Headers', ['content-type'])
     context.set("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE")
     context.set('Access-Control-Allow-Credentials', 'true')
