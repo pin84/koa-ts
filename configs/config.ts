@@ -6,25 +6,38 @@ const wx = {
   AppSecret: 'ab5a13e12bed6d62ca644fe7bcc5d870',
   buttomobj: {
     "button": [
+      // {
+      //   "type": "view",
+      //   "name": "汉水软件",
+      //   "url": "http://wx.lzhs.top"
+      // },
+
       {
         "type": "view",
-        "name": "汉水软件",
-        "url": "http://wx.lzhs.top"
+        "name": "转成二维码",
+        "url": "http://wx.lzhs.top/#/qrcode"
       },
+
       {
-        "name": "小工具",
-        "sub_button": [
-          {
-            "type": "view",
-            "name": "转成二维码",
-            "url": "http://wx.lzhs.top/#/qrcode"
-          },
-          {
-            "type": "click",
-            "name": "赞一下我们",
-            "key": "V1001_GOOD"
-          }]
-      }]
+        "type": "view",
+        "name": "赞一下我们",
+        "url": "http://wx.lzhs.top/#/donate"
+      },
+      // {
+      //   "name": "小工具",
+      //   "sub_button": [
+      //     {
+      //       "type": "view",
+      //       "name": "转成二维码",
+      //       "url": "http://wx.lzhs.top/#/qrcode"
+      //     },
+      //     {
+      //       "type": "click",
+      //       "name": "赞一下我们",
+      //       "key": "V1001_GOOD"
+      //     }]
+      // }
+    ]
   }
 }
 

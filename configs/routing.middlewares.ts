@@ -17,6 +17,9 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
       'http://localhost:8080', //上线后这个去掉
     ]
     let index = urlArr.findIndex(url => url == origin)
+
+    console.log('=----cur  url---',urlArr[index]);
+    
     context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,HEAD,OPTIONS")
     // context.set('Access-Control-Allow-Origin', '*')
     // context.set('Access-Control-Allow-Origin', context.request.header.origin)

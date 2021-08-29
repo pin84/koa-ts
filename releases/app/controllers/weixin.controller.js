@@ -144,7 +144,7 @@ var WeixinController = (function () {
         __metadata("design:returntype", Promise)
     ], WeixinController.prototype, "uploadImg");
     __decorate([
-        routing_controllers_1.Post('/wx/setbuttom'),
+        routing_controllers_1.Get('/wx/setbuttom'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", []),
         __metadata("design:returntype", Promise)

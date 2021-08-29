@@ -51,7 +51,7 @@ export class WeixinController {
     return Message.success(url)
   }
 
-  @Post('/wx/setbuttom')
+  @Get('/wx/setbuttom')
   async setButtom() {
     let access_token = await getAccessToken()
     let url = ` https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}`

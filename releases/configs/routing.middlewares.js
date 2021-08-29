@@ -62,6 +62,7 @@ var HeaderMiddleware = (function () {
                     'http://localhost:8080',
                 ];
                 index = urlArr.findIndex(function (url) { return url == origin; });
+                console.log('=----cur  url---', urlArr[index]);
                 context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,HEAD,OPTIONS");
                 context.set('Access-Control-Allow-Origin', "" + urlArr[index]);
                 context.set("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE");
