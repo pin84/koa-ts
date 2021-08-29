@@ -12,11 +12,10 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
     let urlArr = [
       'http://lzhs.top',
       'http://wx.lzhs.top',
-      'http://wx.lzhs.top/#',
       'http://www.lzhs.top',
       'http://data.lzhs.top',
       'http://4212225c65.oicp.vip',
-      'http://localhost:8080', //上线后这个去掉
+      // 'http://localhost:8080', //上线后这个去掉
     ]
     let index = urlArr.findIndex(url => url == origin)
     context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,HEAD,OPTIONS")
