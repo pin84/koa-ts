@@ -12,8 +12,8 @@ var storage = multer_1["default"].diskStorage({
         cb(null, path);
     },
     filename: function (req, file, cb) {
-        var uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         var mimetype = file.mimetype, originalname = file.originalname;
+        console.log('--filename---', file);
         var ts = new Date().getTime() + '';
         var type = mimetype.split('/')[1];
         cb(null, ts + '.' + type);
