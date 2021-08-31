@@ -118,7 +118,7 @@ var WeixinController = (function () {
                     case 1:
                         bb = _a.sent();
                         console.log('--ssdf--', bb);
-                        return [2, 'hello world ! '];
+                        return [2, 'success'];
                 }
             });
         });

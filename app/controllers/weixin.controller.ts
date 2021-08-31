@@ -83,7 +83,7 @@ export class WeixinController {
       encoding: 'utf-8'
     })
     console.log('--ssdf--', bb);
-    return 'hello world ! '
+    return 'success'
   }
 
 
