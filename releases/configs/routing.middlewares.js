@@ -55,6 +55,7 @@ var HeaderMiddleware = (function () {
                 origin = context.request.header.origin;
                 console.log('--origin----', origin, context.request.req.method);
                 urlArr = [
+                    'http://www.lzhs.top',
                     'http://lzhs.top',
                     'http://wx.lzhs.top',
                     'http://data.lzhs.top',
