@@ -74,7 +74,7 @@ var WeixinController = (function () {
             return __generator(this, function (_a) {
                 filename = file.filename;
                 url = config_1.baseURL + '/' + filename;
-                console.log('--upload---', url);
+                console.log('--upload---- file--', file);
                 return [2, message_1["default"].success(url)];
             });
         });

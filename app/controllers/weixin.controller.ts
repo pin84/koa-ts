@@ -46,8 +46,7 @@ export class WeixinController {
     // async uploadImg(@UploadedFile('fileName') file: any) {
       let { filename } = file
       let url = baseURL + '/' + filename
-      console.log('--upload---', url);
-
+      console.log('--upload---- file--', file);
     return Message.success(url)
   }
 

@@ -14,7 +14,6 @@ var storage = multer_1["default"].diskStorage({
     filename: function (req, file, cb) {
         var uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         var mimetype = file.mimetype, originalname = file.originalname;
-        console.log('--file---', file);
         var ts = new Date().getTime() + '';
         var type = mimetype.split('/')[1];
         cb(null, ts + '.' + type);
@@ -22,6 +21,6 @@ var storage = multer_1["default"].diskStorage({
 });
 var limits = {
     fieldNameSize: 255,
-    fileSize: 1024 * 1024 * 2
+    fileSize: 1024 * 1024 * 10
 };
 exports.upload = multer_1["default"]({ storage: storage, limits: limits });

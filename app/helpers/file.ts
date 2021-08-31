@@ -12,9 +12,7 @@ const storage = multer.diskStorage({
 	filename: function (req, file, cb) {
 		const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
 		let { mimetype, originalname } = file
-		console.log('--file---',file);
 		let ts = new Date().getTime() + ''
-		
 		let type = mimetype.split('/')[1]
 		cb(null, ts  +'.' + type)
 	}
@@ -34,7 +32,7 @@ const storage = multer.diskStorage({
 
 const limits = {
 	fieldNameSize: 255,
-	fileSize: 1024 * 1024 * 2
+	fileSize: 1024 * 1024 * 10
 }
 
 export const upload = multer({ storage: storage, limits })
