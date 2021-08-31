@@ -21,6 +21,6 @@ var storage = multer_1["default"].diskStorage({
 });
 var limits = {
     fieldNameSize: 255,
-    fileSize: 1024 * 1024 * 10
+    fileSize: 1024 * 1024 * 20
 };
 exports.upload = multer_1["default"]({ storage: storage, limits: limits });
