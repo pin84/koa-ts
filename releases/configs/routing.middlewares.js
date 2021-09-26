@@ -58,6 +58,7 @@ var HeaderMiddleware = (function () {
                     'http://www.lzhs.top',
                     'http://lzhs.top',
                     'http://wx.lzhs.top',
+                    'http://of.lzhs.top',
                     'http://data.lzhs.top',
                     'http://4212225c65.oicp.vip',
                     'http://localhost:8080',
