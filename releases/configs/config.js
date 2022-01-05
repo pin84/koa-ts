@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.baseURL = exports.setPath = exports.getRedisConfig = exports.wx = void 0;
+exports.miniprogramConfig = exports.baseURL = exports.miniprogramSetPath = exports.setPath = exports.getRedisConfig = exports.wx = void 0;
 var wx = {
     token: 'lzhstop',
     AppID: 'wxce4a169091306766',
@@ -42,5 +42,23 @@ var setPath = function () {
     return path;
 };
 exports.setPath = setPath;
+var miniprogramSetPath = function () {
+    console.log('======ENV===', process.env.NODE_ENV);
+    var path = '';
+    var env = process.env.NODE_ENV;
+    if (env == 'development') {
+        path = '/users/miniprogramUpload';
+    }
+    else {
+        path = '/usr/myapp/miniprogramUpload';
+    }
+    return path;
+};
+exports.miniprogramSetPath = miniprogramSetPath;
+var miniprogramConfig = {
+    appid: 'wxd32fdaef18b611d9',
+    secret: '6cc4bf8f1ebf884c55154c29810b8a04'
+};
+exports.miniprogramConfig = miniprogramConfig;
 var baseURL = 'http://static.lzhs.top/upload';
 exports.baseURL = baseURL;

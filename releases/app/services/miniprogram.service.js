@@ -41,41 +41,59 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-exports.HeaderMiddleware = void 0;
-var routing_controllers_1 = require("routing-controllers");
+exports.MiniprogramService = void 0;
 var typedi_1 = require("typedi");
-var HeaderMiddleware = (function () {
-    function HeaderMiddleware() {
+var client_1 = __importDefault(require("../helpers/client"));
+var MiniprogramService = (function () {
+    function MiniprogramService() {
     }
-    HeaderMiddleware.prototype.use = function (context, next) {
+    MiniprogramService.prototype.create = function (session) {
         return __awaiter(this, void 0, void 0, function () {
-            var origin, urlArr, index;
+            var session_key, openid, unionid, user;
             return __generator(this, function (_a) {
-                origin = context.request.header.origin;
-                urlArr = [
-                    'http://www.lzhs.top',
-                    'http://lzhs.top',
-                    'http://wx.lzhs.top',
-                    'http://of.lzhs.top',
-                    'http://data.lzhs.top',
-                    'http://4212225c65.oicp.vip',
-                    'http://localhost:8080',
-                ];
-                index = urlArr.findIndex(function (url) { return url == origin; });
-                context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,HEAD,OPTIONS");
-                context.set('Access-Control-Allow-Origin', "" + urlArr[index]);
-                context.set("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE");
-                context.set('Access-Control-Allow-Credentials', 'true');
-                context.set('Content-Type', 'application/json; charset=utf-8');
-                return [2, next()];
+                switch (_a.label) {
+                    case 0:
+                        session_key = session.session_key, openid = session.openid, unionid = session.unionid;
+                        return [4, this.findUser(openid)];
+                    case 1:
+                        user = _a.sent();
+                        if (user)
+                            return [2];
+                        return [2, client_1["default"].fg_user.create({
+                                data: {
+                                    sessionKey: session_key,
+                                    openid: openid,
+                                    unionid: unionid
+                                }
+                            })];
+                }
             });
         });
     };
-    HeaderMiddleware = __decorate([
-        routing_controllers_1.Middleware({ type: 'before' }),
+    MiniprogramService.prototype.findUser = function (openid) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, client_1["default"].fg_user.findUnique({
+                            where: {
+                                openid: openid
+                            }
+                        })];
+                    case 1:
+                        user = _a.sent();
+                        return [2, user];
+                }
+            });
+        });
+    };
+    MiniprogramService = __decorate([
         typedi_1.Service()
-    ], HeaderMiddleware);
-    return HeaderMiddleware;
+    ], MiniprogramService);
+    return MiniprogramService;
 }());
-exports.HeaderMiddleware = HeaderMiddleware;
+exports.MiniprogramService = MiniprogramService;

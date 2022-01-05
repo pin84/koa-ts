@@ -63,15 +63,8 @@ var Test = (function () {
     };
     Test.prototype.testRedis = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var res1;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, redisConnection_1["default"].get('str2')];
-                    case 1:
-                        res1 = _a.sent();
-                        console.log(res1);
-                        return [2, 'redis'];
-                }
+                return [2, 'redisaa'];
             });
         });
     };
