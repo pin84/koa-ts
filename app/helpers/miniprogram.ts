@@ -1,12 +1,12 @@
 import multer from "multer";
 import fs from 'fs'
 import path from 'path'
-import { miniprogramSetPath } from "configs/config";
+import { setPathMiniProgram } from "configs/config";
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		// cb(null, 'tmp/uploads')
-		let path = miniprogramSetPath()
+		let path = setPathMiniProgram()
 		cb(null, path)
 	},
 	filename: function (req, file, cb) {

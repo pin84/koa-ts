@@ -61,17 +61,30 @@ const setPath = () => {
   }
   return path
 }
-const miniprogramSetPath = () => {
+
+const setPathMiniProgram = () => {
   console.log('======ENV===', process.env.NODE_ENV);
   let path = ''
   let env = process.env.NODE_ENV
   if (env == 'development') {
-    path = '/users/miniprogramUpload'
+    path = '/users/upload'
   } else {
-    path = '/usr/myapp/miniprogramUpload'
+    path = '/etc/myapp/fg'
   }
   return path
 }
+
+// const miniprogramSetPath = () => {
+//   console.log('======ENV===', process.env.NODE_ENV);
+//   let path = ''
+//   let env = process.env.NODE_ENV
+//   if (env == 'development') {
+//     path = '/users/miniprogramUpload'
+//   } else {
+//     path = '/usr/myapp/miniprogramUpload'
+//   }
+//   return path
+// }
 
 
 const miniprogramConfig = {
@@ -80,12 +93,15 @@ const miniprogramConfig = {
 }
 
 const baseURL = 'http://static.lzhs.top/upload'
+const baseURLMiniProgram = 'https://data.lzhs.top/fg'
 
 export {
   wx,
   getRedisConfig,
   setPath,
-  miniprogramSetPath,
+  // miniprogramSetPath,
+  setPathMiniProgram,
   baseURL,
+  baseURLMiniProgram,
   miniprogramConfig
 }

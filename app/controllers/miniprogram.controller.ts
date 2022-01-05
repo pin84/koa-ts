@@ -25,7 +25,7 @@ import { sign } from 'wx/wxSign'
 import getRawBody from 'raw-body'
 import axios from 'axios'
 import getAccessToken from 'wx/getAccessToken'
-import { wx, setPath, baseURL } from '../../configs/config'
+import { wx, setPath, baseURL,baseURLMiniProgram } from '../../configs/config'
 import { miniprogram } from '../helpers/miniprogram'
 import {miniprogramConfig} from '../../configs/config'
 // const uploadOpts = uploads.options;
@@ -43,7 +43,7 @@ export class miniprogramController {
   @Post('/mini/upload')
   async uploadImg(@UploadedFile('fileName', { options: miniprogram }) file: any) {
       let { filename } = file
-      let url = baseURL + '/' + filename
+      let url = baseURLMiniProgram + '/' + filename
       console.log('--upload---- file--',file);
     return Message.success(url)
   }

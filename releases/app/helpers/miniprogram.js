@@ -8,7 +8,7 @@ var multer_1 = __importDefault(require("multer"));
 var config_1 = require("../../configs/config");
 var storage = multer_1["default"].diskStorage({
     destination: function (req, file, cb) {
-        var path = config_1.miniprogramSetPath();
+        var path = config_1.setPathMiniProgram();
         cb(null, path);
     },
     filename: function (req, file, cb) {

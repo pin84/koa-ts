@@ -73,7 +73,7 @@ var miniprogramController = (function () {
             var filename, url;
             return __generator(this, function (_a) {
                 filename = file.filename;
-                url = config_1.baseURL + '/' + filename;
+                url = config_1.baseURLMiniProgram + '/' + filename;
                 console.log('--upload---- file--', file);
                 return [2, message_1["default"].success(url)];
             });
