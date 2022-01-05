@@ -40,3 +40,22 @@ model message {
   isSecret    Int?      @db.TinyInt
   create_time DateTime? @default(now()) @db.Timestamp(0)
 }
+
+
+model fg_user {
+  id          Int       @unique @default(autoincrement()) @db.UnsignedInt
+  sessionKey         String  @unique  @db.VarChar(45)
+  openid         String  @unique  @db.VarChar(45)
+  unionid         String  @unique @db.VarChar(45)
+  create_time DateTime? @default(now()) @db.DateTime(0)
+  update_time DateTime? @default(now()) @db.DateTime(0)
+}
+
+model fg_uploadfile {
+  id          Int       @unique @default(autoincrement()) @db.UnsignedInt
+  name        String    @unique @db.VarChar(45)
+  originname  String    @unique @db.VarChar(45)
+  userid      Int 
+  create_time DateTime? @default(now()) @db.DateTime(0)
+  update_time DateTime? @default(now()) @db.DateTime(0)
+}

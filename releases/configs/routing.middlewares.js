@@ -53,7 +53,8 @@ var HeaderMiddleware = (function () {
             var origin, urlArr, index;
             return __generator(this, function (_a) {
                 origin = context.request.header.origin;
-                console.log('--origin----', origin, context.request.req.method);
+                console.log('--origin----', context, context.request.req.method);
+
                 urlArr = [
                     'http://www.lzhs.top',
                     'http://lzhs.top',

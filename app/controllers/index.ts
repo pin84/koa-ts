@@ -2,4 +2,5 @@
 export * from './athena.controller'
 export * from './weixin.controller'
 export * from './officailwebsite.controller'
+export * from './miniprogram.controller'
 export * from './test.controller'

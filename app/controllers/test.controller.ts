@@ -29,13 +29,13 @@ export class Test {
   @Get('/test/redis')
   async testRedis() {
     // let res =await redis.set('str2' , 'strwwww', 'EX', 10)
-    let res1 =await redis.get('str2')
+    // let res1 =await redis.get('str2')
  
 
-    console.log(res1);
+    // console.log(res1);
     
 
-    return 'redis'
+    return 'redisaa'
   }
 
 

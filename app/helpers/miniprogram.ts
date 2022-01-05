@@ -1,22 +1,18 @@
 import multer from "multer";
 import fs from 'fs'
 import path from 'path'
-import { setPath } from "configs/config";
-
-
+import { miniprogramSetPath } from "configs/config";
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		// cb(null, 'tmp/uploads')
-		let path = setPath()
+		let path = miniprogramSetPath()
 		cb(null, path)
 	},
 	filename: function (req, file, cb) {
 		// const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
 		let { mimetype, originalname } = file
 
-		console.log('--filename---',file);
-		
 		let ts = new Date().getTime() + ''
 		let type = mimetype.split('/')[1]
 		cb(null, ts  +'.' + type)
@@ -40,4 +36,4 @@ const limits = {
 	fileSize: 1024 * 1024 * 20
 }
 
-export const upload = multer({ storage: storage, limits })
+export const miniprogram = multer({ storage: storage, limits })
