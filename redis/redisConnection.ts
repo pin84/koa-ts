@@ -22,5 +22,6 @@ redis.on('error', (err) => { //根据 error 事件判断连接失败
   print.danger('The Redis Can not Connect:')
 })
 
+// redis.set('access_token', access_token, 'EX', 300) //写入 生存时间单位：秒
 
 export default redis

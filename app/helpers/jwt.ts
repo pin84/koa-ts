@@ -4,9 +4,9 @@ const SIGN_KEY = 'abc'
 
 class Jwt {
 
-  getToken(userData) {
+  getToken(userData,expiresIn=600) {
 
-    let str = jwt.sign(userData, SIGN_KEY, { expiresIn: 600 })
+    let str = jwt.sign(userData, SIGN_KEY, { expiresIn })
 
     return str
   }

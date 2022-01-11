@@ -10,7 +10,6 @@ datasource db {
 // 根据模型创建数据库
 //npx prisma migrate dev --name init
 
-
 model ice {
   id          Int       @unique @default(autoincrement()) @db.UnsignedInt
   name        String    @unique @db.VarChar(45)
@@ -20,7 +19,6 @@ model ice {
 
   @@id([id, name])
 }
-
 
 model user {
   id          Int       @unique @default(autoincrement()) @db.UnsignedInt
@@ -41,12 +39,31 @@ model message {
   create_time DateTime? @default(now()) @db.Timestamp(0)
 }
 
-
 model fg_user {
+  id           Int       @unique @default(autoincrement()) @db.UnsignedInt
+  token        String?   @unique @db.VarChar(45)
+  sessionKey   String    @unique @db.VarChar(45)
+  openid       String    @unique @db.VarChar(45)
+  unionid      String    @unique @db.VarChar(45)
+  username     String?   @db.VarChar(45)
+  userAvatar   String?   @db.VarChar(145)
+  weChatName   String?   @db.VarChar(45)
+  weChatAvatar String?   @db.VarChar(145)
+  remark       String?   @db.VarChar(500)
+  phone        String?   @unique @db.VarChar(45)
+  isDesigner   Int?      @db.TinyInt // 4 设计师(申请中) 5 设计师
+  isAdmin      Int?      @db.TinyInt // 1  超级管理员 2 管理员 3 普通用户 
+  create_time  DateTime? @default(now()) @db.DateTime(0)
+  update_time  DateTime? @default(now()) @db.DateTime(0)
+}
+
+model fg_article {
   id          Int       @unique @default(autoincrement()) @db.UnsignedInt
-  sessionKey         String  @unique  @db.VarChar(45)
-  openid         String  @unique  @db.VarChar(45)
-  unionid         String  @unique @db.VarChar(45)
+  title       String ?   @db.VarChar(45)
+  time       String?       @db.VarChar(45)
+  subtitle       String?       @db.VarChar(500)
+  coverURL   String?    @db.VarChar(500)
+  content     String?   
   create_time DateTime? @default(now()) @db.DateTime(0)
   update_time DateTime? @default(now()) @db.DateTime(0)
 }
@@ -55,7 +72,17 @@ model fg_uploadfile {
   id          Int       @unique @default(autoincrement()) @db.UnsignedInt
   name        String    @unique @db.VarChar(45)
   originname  String    @unique @db.VarChar(45)
-  userid      Int 
+  userid      Int
+  create_time DateTime? @default(now()) @db.DateTime(0)
+  update_time DateTime? @default(now()) @db.DateTime(0)
+}
+
+model fg_rides {
+  id Int @unique @default(autoincrement()) @db.UnsignedInt
+  // name        String    @unique @db.VarChar(45)
+  // originname  String    @unique @db.VarChar(45)
+  // userid      Int
+
   create_time DateTime? @default(now()) @db.DateTime(0)
   update_time DateTime? @default(now()) @db.DateTime(0)
 }

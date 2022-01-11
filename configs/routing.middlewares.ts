@@ -17,6 +17,7 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
       'http://data.lzhs.top',
       'http://4212225c65.oicp.vip',
       'http://localhost:8080', //上线后这个去掉
+      'http://localhost:3030', //上线后这个去掉
     ]
     let index = urlArr.findIndex(url => url == origin)
 

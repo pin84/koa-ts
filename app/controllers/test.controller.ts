@@ -6,7 +6,8 @@ import {
   Get,
   Param,
   QueryParam,
-  UploadedFile
+  UploadedFile,
+  Body
 } from 'routing-controllers'
 import { AthenaService } from '../services'
 import { Service } from 'typedi'
@@ -26,11 +27,12 @@ export class Test {
   test() {
     return '---test  api----'
   }
-  @Get('/test/redis')
+  @Get('/test/fcm')
   async testRedis() {
     // let res =await redis.set('str2' , 'strwwww', 'EX', 10)
     // let res1 =await redis.get('str2')
- 
+    // console.log(toke);
+    
 
     // console.log(res1);
     
