@@ -82,14 +82,12 @@ var miniprogramController = (function () {
             });
         });
     };
-    miniprogramController.prototype.getArtile = function (token) {
+    miniprogramController.prototype.getArtile = function (page, num, token) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log(token);
-                        return [4, this.MiniprogramService.getArticle()];
+                    case 0: return [4, this.MiniprogramService.getArticle(page, num = 20)];
                     case 1:
                         res = _a.sent();
                         return [2, message_1["default"].success(res)];
@@ -246,9 +244,11 @@ var miniprogramController = (function () {
     ], miniprogramController.prototype, "delArtile");
     __decorate([
         routing_controllers_1.Get('/fg/getArticle'),
-        __param(0, routing_controllers_1.QueryParam('token')),
+        __param(0, routing_controllers_1.QueryParam('page')),
+        __param(1, routing_controllers_1.QueryParam('num')),
+        __param(2, routing_controllers_1.QueryParam('token')),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [String]),
+        __metadata("design:paramtypes", [Number, Number, String]),
         __metadata("design:returntype", Promise)
     ], miniprogramController.prototype, "getArtile");
     __decorate([

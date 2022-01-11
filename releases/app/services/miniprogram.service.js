@@ -66,12 +66,17 @@ var MiniprogramService = (function () {
             });
         });
     };
-    MiniprogramService.prototype.getArticle = function () {
+    MiniprogramService.prototype.getArticle = function (page, num) {
         return __awaiter(this, void 0, void 0, function () {
-            var list;
+            var skip, list;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, this.findArticle()];
+                    case 0:
+                        skip = (page - 1) * num;
+                        return [4, client_1["default"].fg_article.findMany({
+                                skip: skip,
+                                take: num
+                            })];
                     case 1:
                         list = _a.sent();
                         return [2, list];

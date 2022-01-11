@@ -39,18 +39,17 @@ import { miniprogramConfig } from '../../configs/config'
 export class miniprogramController {
   constructor(private MiniprogramService: MiniprogramService) { }
   @Get('/fg')
-  teaa(){
+  teaa() {
     return 'aaaadfsdfds'
   }
   @Get('/fg/delArticle')
-  async delArtile(@QueryParam('token') token?: String,@QueryParam('id') id?: String){
-   let res = await this.MiniprogramService.delArtile(id)
+  async delArtile(@QueryParam('token') token?: String, @QueryParam('id') id?: String) {
+    let res = await this.MiniprogramService.delArtile(id)
     return res
   }
   @Get('/fg/getArticle')
-  async getArtile(@QueryParam('token') token?: String){
-    console.log(token);
-   let res = await this.MiniprogramService.getArticle()
+  async getArtile(@QueryParam('page') page: Number, @QueryParam('num') num?: Number, @QueryParam('token') token?: String) {
+    let res = await this.MiniprogramService.getArticle(page, num = 20)
     return Message.success(res)
   }
 

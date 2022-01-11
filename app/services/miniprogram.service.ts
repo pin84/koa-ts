@@ -22,8 +22,14 @@ export class MiniprogramService {
     return Message.success('删除成功')
   }
 
-  async getArticle() {
-    let list = await this.findArticle()
+  async getArticle(page,num) {
+    let skip = (page-1)*num
+    let list = await prisma.fg_article.findMany({
+      skip,
+      take: num,
+    })
+
+    // let list = await this.findArticle()
     return list
   }
   async createArticle(content) {
