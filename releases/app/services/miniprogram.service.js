@@ -99,6 +99,7 @@ var MiniprogramService = (function () {
                             })];
                     case 1:
                         res = _a.sent();
+                        console.log('====create===', res);
                         return [3, 4];
                     case 2: return [4, client_1["default"].fg_article.update({
                             where: {
@@ -114,8 +115,11 @@ var MiniprogramService = (function () {
                         })];
                     case 3:
                         res = _a.sent();
+                        console.log('====update===', res);
                         _a.label = 4;
-                    case 4: return [2, res];
+                    case 4:
+                        console.log('====aaaaa===', res);
+                        return [2, res];
                 }
             });
         });

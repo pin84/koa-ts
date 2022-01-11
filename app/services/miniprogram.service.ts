@@ -41,6 +41,8 @@ export class MiniprogramService {
           subtitle
         },
       })
+      console.log('====create===',res);
+      
     } else {
       res = await prisma.fg_article.update({
         where:{
@@ -54,9 +56,10 @@ export class MiniprogramService {
           subtitle
         }
       })
+      console.log('====update===',res);
     }
 
-
+    console.log('====aaaaa===',res);
     return res
 
   }
