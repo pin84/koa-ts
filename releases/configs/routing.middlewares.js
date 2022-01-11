@@ -61,6 +61,7 @@ var HeaderMiddleware = (function () {
                     'http://data.lzhs.top',
                     'http://4212225c65.oicp.vip',
                     'http://localhost:8080',
+                    'http://localhost:3030',
                 ];
                 index = urlArr.findIndex(function (url) { return url == origin; });
                 context.set("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,HEAD,OPTIONS");

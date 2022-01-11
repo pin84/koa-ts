@@ -8,8 +8,9 @@ var SIGN_KEY = 'abc';
 var Jwt = (function () {
     function Jwt() {
     }
-    Jwt.prototype.getToken = function (userData) {
-        var str = jsonwebtoken_1["default"].sign(userData, SIGN_KEY, { expiresIn: 600 });
+    Jwt.prototype.getToken = function (userData, expiresIn) {
+        if (expiresIn === void 0) { expiresIn = 600; }
+        var str = jsonwebtoken_1["default"].sign(userData, SIGN_KEY, { expiresIn: expiresIn });
         return str;
     };
     Jwt.prototype.verify = function (token) {

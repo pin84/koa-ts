@@ -75,7 +75,7 @@ var Test = (function () {
         __metadata("design:returntype", void 0)
     ], Test.prototype, "test");
     __decorate([
-        routing_controllers_1.Get('/test/redis'),
+        routing_controllers_1.Get('/test/fcm'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", []),
         __metadata("design:returntype", Promise)

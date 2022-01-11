@@ -56,9 +56,7 @@ var routing_controllers_1 = require("routing-controllers");
 var services_1 = require("../services");
 var typedi_1 = require("typedi");
 var message_1 = __importDefault(require("../helpers/message"));
-var utils_1 = require("../../configs/utils");
-var wxSign_1 = require("../../wx/wxSign");
-var raw_body_1 = __importDefault(require("raw-body"));
+var redisConnection_1 = __importDefault(require("../../redis/redisConnection"));
 var axios_1 = __importDefault(require("axios"));
 var getAccessToken_1 = __importDefault(require("../../wx/getAccessToken"));
 var config_1 = require("../../configs/config");
@@ -68,6 +66,77 @@ var miniprogramController = (function () {
     function miniprogramController(MiniprogramService) {
         this.MiniprogramService = MiniprogramService;
     }
+    miniprogramController.prototype.delArtile = function (token, id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.MiniprogramService.delArtile(id)];
+                    case 1:
+                        res = _a.sent();
+                        return [2, res];
+                }
+            });
+        });
+    };
+    miniprogramController.prototype.getArtile = function (token) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log(token);
+                        return [4, this.MiniprogramService.getArticle()];
+                    case 1:
+                        res = _a.sent();
+                        return [2, message_1["default"].success(res)];
+                }
+            });
+        });
+    };
+    miniprogramController.prototype.adminUploadArticle = function (file, content) {
+        return __awaiter(this, void 0, void 0, function () {
+            var filename, url;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log(content);
+                        filename = file.filename;
+                        url = config_1.baseURLMiniProgram + '/' + filename;
+                        return [4, this.MiniprogramService.createArticle(Object.assign({}, { coverURL: url }, content))];
+                    case 1:
+                        _a.sent();
+                        return [2, message_1["default"].success('上传成功')];
+                }
+            });
+        });
+    };
+    miniprogramController.prototype.getDesigner = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.MiniprogramService.getDesigner()];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    miniprogramController.prototype.sendSms = function (phone) {
+        return __awaiter(this, void 0, void 0, function () {
+            var code;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        code = Math.random().toString().slice(2, 6);
+                        console.log(code);
+                        return [4, redisConnection_1["default"].set(phone, code, 'EX', 10 * 60)];
+                    case 1:
+                        _a.sent();
+                        return [2, message_1["default"].success(code)];
+                }
+            });
+        });
+    };
     miniprogramController.prototype.uploadImg = function (file) {
         return __awaiter(this, void 0, void 0, function () {
             var filename, url;
@@ -81,7 +150,7 @@ var miniprogramController = (function () {
     };
     miniprogramController.prototype.code2Session = function (code) {
         return __awaiter(this, void 0, void 0, function () {
-            var appid, secret, url, res;
+            var appid, secret, url, res, user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -90,53 +159,110 @@ var miniprogramController = (function () {
                         return [4, axios_1["default"].get(url)];
                     case 1:
                         res = _a.sent();
-                        console.log(res.data);
-                        this.MiniprogramService.create(res.data);
-                        return [2, res.data];
+                        return [4, this.MiniprogramService.create(res.data)];
+                    case 2:
+                        user = _a.sent();
+                        return [2, message_1["default"].success(user)];
                 }
             });
         });
     };
-    miniprogramController.prototype.tokenVerify = function (signature, nonce, timestamp, echostr) {
-        var token = 'lzhstop';
-        var str = [token, timestamp, nonce].sort().join('');
-        var sha = utils_1.sha1(str);
-        if (sha == signature) {
-            return echostr;
-        }
-        else {
-            return 'wrong';
-        }
-    };
-    miniprogramController.prototype.test = function (Content) {
+    miniprogramController.prototype.getUserInfo = function (token) {
         return __awaiter(this, void 0, void 0, function () {
-            var bb;
+            var user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, raw_body_1["default"](Content.req, {
-                            encoding: 'utf-8'
-                        })];
+                    case 0: return [4, this.MiniprogramService.getUserinfo(token)];
                     case 1:
-                        bb = _a.sent();
-                        console.log('--ssdf--', bb);
-                        return [2, 'success'];
+                        user = _a.sent();
+                        return [2, user];
                 }
             });
         });
     };
-    miniprogramController.prototype.sign = function (signUrl) {
+    miniprogramController.prototype.update = function (Content) {
         return __awaiter(this, void 0, void 0, function () {
-            var res;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4, wxSign_1.sign(signUrl)];
+            var _i, _a, _b, key, value, res;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        for (_i = 0, _a = Object.entries(Content); _i < _a.length; _i++) {
+                            _b = _a[_i], key = _b[0], value = _b[1];
+                            if (value == '') {
+                                return [2, message_1["default"].fail('信息不完整')];
+                                break;
+                            }
+                        }
+                        return [4, this.MiniprogramService.updateUser(Content)];
                     case 1:
-                        res = _a.sent();
+                        res = _c.sent();
+                        console.log('--ssdf--', res);
                         return [2, res];
                 }
             });
         });
     };
+    miniprogramController.prototype.applyDesigner = function (Content) {
+        return __awaiter(this, void 0, void 0, function () {
+            var phone, username, token;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        phone = Content.phone, username = Content.username, token = Content.token;
+                        return [4, this.MiniprogramService.applyDesigner(token, phone, username)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    miniprogramController.prototype.adminDesigner = function (openid) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log(openid);
+                        return [4, this.MiniprogramService.adminDesigner(openid)];
+                    case 1: return [2, _a.sent()];
+                }
+            });
+        });
+    };
+    __decorate([
+        routing_controllers_1.Get('/fg/delArticle'),
+        __param(0, routing_controllers_1.QueryParam('token')),
+        __param(1, routing_controllers_1.QueryParam('id')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String, String]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "delArtile");
+    __decorate([
+        routing_controllers_1.Get('/fg/getArticle'),
+        __param(0, routing_controllers_1.QueryParam('token')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "getArtile");
+    __decorate([
+        routing_controllers_1.Post('/fg/uplod/article'),
+        __param(0, routing_controllers_1.UploadedFile('fileName', { options: miniprogram_1.miniprogram })),
+        __param(1, routing_controllers_1.Body()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "adminUploadArticle");
+    __decorate([
+        routing_controllers_1.Get('/fg/getDesigner'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "getDesigner");
+    __decorate([
+        routing_controllers_1.Get('/fg/sms'),
+        __param(0, routing_controllers_1.QueryParam('phone')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Number]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "sendSms");
     __decorate([
         routing_controllers_1.Post('/mini/upload'),
         __param(0, routing_controllers_1.UploadedFile('fileName', { options: miniprogram_1.miniprogram })),
@@ -152,31 +278,33 @@ var miniprogramController = (function () {
         __metadata("design:returntype", Promise)
     ], miniprogramController.prototype, "code2Session");
     __decorate([
-        routing_controllers_1.Get('/wx/'),
-        __param(0, routing_controllers_1.QueryParam('signature')),
-        __param(1, routing_controllers_1.QueryParam('nonce')),
-        __param(2, routing_controllers_1.QueryParam('timestamp')),
-        __param(3, routing_controllers_1.QueryParam('echostr')),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [String,
-            Number,
-            Number, String]),
-        __metadata("design:returntype", void 0)
-    ], miniprogramController.prototype, "tokenVerify");
-    __decorate([
-        routing_controllers_1.Post('/wx/'),
-        __param(0, routing_controllers_1.Ctx()),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object]),
-        __metadata("design:returntype", Promise)
-    ], miniprogramController.prototype, "test");
-    __decorate([
-        routing_controllers_1.Get('/wx/sign'),
-        __param(0, routing_controllers_1.QueryParam('signUrl')),
+        routing_controllers_1.Get('/fg/getuser'),
+        __param(0, routing_controllers_1.QueryParam('token')),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [String]),
         __metadata("design:returntype", Promise)
-    ], miniprogramController.prototype, "sign");
+    ], miniprogramController.prototype, "getUserInfo");
+    __decorate([
+        routing_controllers_1.Post('/fg/updateUser'),
+        __param(0, routing_controllers_1.Body()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "update");
+    __decorate([
+        routing_controllers_1.Post('/fg/apply/designer'),
+        __param(0, routing_controllers_1.Body()),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "applyDesigner");
+    __decorate([
+        routing_controllers_1.Get('/fg/admin/designer'),
+        __param(0, routing_controllers_1.QueryParam('openid')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "adminDesigner");
     miniprogramController = __decorate([
         routing_controllers_1.Controller(),
         typedi_1.Service(),

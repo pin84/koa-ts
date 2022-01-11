@@ -48,12 +48,99 @@ exports.__esModule = true;
 exports.MiniprogramService = void 0;
 var typedi_1 = require("typedi");
 var client_1 = __importDefault(require("../helpers/client"));
+var redisConnection_1 = __importDefault(require("../../redis/redisConnection"));
+var message_1 = __importDefault(require("../helpers/message"));
+var jwt_1 = __importDefault(require("../helpers/jwt"));
 var MiniprogramService = (function () {
     function MiniprogramService() {
     }
+    MiniprogramService.prototype.delArtile = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.deleteById(Number(id))];
+                    case 1:
+                        _a.sent();
+                        return [2, message_1["default"].success('删除成功')];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.getArticle = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var list;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.findArticle()];
+                    case 1:
+                        list = _a.sent();
+                        return [2, list];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.createArticle = function (content) {
+        return __awaiter(this, void 0, void 0, function () {
+            var title, time, htmlStr, coverURL, subtitle, id, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        title = content.title, time = content.time, htmlStr = content.htmlStr, coverURL = content.coverURL, subtitle = content.subtitle, id = content.id;
+                        console.log(title, time, htmlStr, coverURL, subtitle, id);
+                        if (!!id) return [3, 2];
+                        return [4, client_1["default"].fg_article.create({
+                                data: {
+                                    title: title,
+                                    time: String(time),
+                                    content: htmlStr,
+                                    coverURL: coverURL,
+                                    subtitle: subtitle
+                                }
+                            })];
+                    case 1:
+                        res = _a.sent();
+                        return [3, 4];
+                    case 2: return [4, client_1["default"].fg_article.update({
+                            where: {
+                                id: Number(id)
+                            },
+                            data: {
+                                title: title,
+                                time: String(time),
+                                content: htmlStr,
+                                coverURL: coverURL,
+                                subtitle: subtitle
+                            }
+                        })];
+                    case 3:
+                        res = _a.sent();
+                        _a.label = 4;
+                    case 4: return [2, res];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.getDesigner = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var list;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, client_1["default"].fg_user.findMany({
+                            where: {
+                                isDesigner: 4
+                            },
+                            select: this.findSelect()
+                        })];
+                    case 1:
+                        list = _a.sent();
+                        return [2, list];
+                }
+            });
+        });
+    };
     MiniprogramService.prototype.create = function (session) {
         return __awaiter(this, void 0, void 0, function () {
-            var session_key, openid, unionid, user;
+            var session_key, openid, unionid, user, timestamp, token, obj;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -61,15 +148,144 @@ var MiniprogramService = (function () {
                         return [4, this.findUser(openid)];
                     case 1:
                         user = _a.sent();
+                        timestamp = new Date().getTime();
+                        token = timestamp.toString(32) + Math.random().toString(16).slice(2);
+                        return [4, redisConnection_1["default"].set(token, openid, 'EX', 24 * 60 * 60)];
+                    case 2:
+                        _a.sent();
+                        obj = Object.assign({}, user, { token: token });
                         if (user)
-                            return [2];
-                        return [2, client_1["default"].fg_user.create({
+                            return [2, obj];
+                        return [4, client_1["default"].fg_user.create({
                                 data: {
                                     sessionKey: session_key,
                                     openid: openid,
-                                    unionid: unionid
+                                    unionid: unionid,
+                                    token: token
                                 }
                             })];
+                    case 3:
+                        _a.sent();
+                        return [2, obj];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.getUserinfo = function (token) {
+        return __awaiter(this, void 0, void 0, function () {
+            var openid, user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, redisConnection_1["default"].get(token)];
+                    case 1:
+                        openid = _a.sent();
+                        if (!openid) {
+                            return [2, message_1["default"].fail('登录已过期，请刷新页面')];
+                        }
+                        return [4, this.findUser(openid)];
+                    case 2:
+                        user = _a.sent();
+                        return [2, message_1["default"].success(user)];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.updateUser = function (userinfo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var username, phone, token, code, openid, updateUsers;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        username = userinfo.username, phone = userinfo.phone, token = userinfo.token, code = userinfo.code;
+                        return [4, redisConnection_1["default"].get(token)];
+                    case 1:
+                        openid = _a.sent();
+                        if (!openid) {
+                            return [2, message_1["default"].fail('验证码已过期，请重新发送')];
+                        }
+                        return [4, client_1["default"].fg_user.updateMany({
+                                where: {
+                                    openid: openid
+                                },
+                                data: {
+                                    username: username,
+                                    phone: phone
+                                }
+                            })];
+                    case 2:
+                        updateUsers = _a.sent();
+                        return [2, message_1["default"].success(updateUsers)];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.applyDesigner = function (token, phone, username) {
+        return __awaiter(this, void 0, void 0, function () {
+            var openid, user, isDesigner, updateUsers;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, redisConnection_1["default"].get(token)];
+                    case 1:
+                        openid = _a.sent();
+                        if (!openid) {
+                            return [2, message_1["default"].fail('登录已过期，请刷新页面')];
+                        }
+                        return [4, this.findUser(openid)];
+                    case 2:
+                        user = _a.sent();
+                        if (!user) {
+                            return [2, message_1["default"].fail('用户不存在')];
+                        }
+                        isDesigner = user.isDesigner;
+                        if (isDesigner == 4) {
+                            return [2, message_1["default"].fail('正在审核中，请耐心等待')];
+                        }
+                        if (isDesigner == 5) {
+                            return [2, message_1["default"].fail('您已经是设计师，不能重复申请')];
+                        }
+                        return [4, client_1["default"].fg_user.updateMany({
+                                where: {
+                                    openid: openid
+                                },
+                                data: {
+                                    isDesigner: 4,
+                                    phone: phone,
+                                    username: username
+                                }
+                            })];
+                    case 3:
+                        updateUsers = _a.sent();
+                        return [2, message_1["default"].success('申请成功，请等待审核')];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.adminDesigner = function (openid) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user, isDesigner, updateUsers;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.findUser(openid)];
+                    case 1:
+                        user = _a.sent();
+                        if (!user) {
+                            return [2, message_1["default"].fail('用户不存在')];
+                        }
+                        isDesigner = user.isDesigner;
+                        if (isDesigner == 5) {
+                            return [2, message_1["default"].fail('用户已经是设计师')];
+                        }
+                        return [4, client_1["default"].fg_user.updateMany({
+                                where: {
+                                    openid: openid
+                                },
+                                data: {
+                                    isDesigner: 5
+                                }
+                            })];
+                    case 2:
+                        updateUsers = _a.sent();
+                        return [2, message_1["default"].success('申请成功，请等待审核')];
                 }
             });
         });
@@ -82,11 +298,86 @@ var MiniprogramService = (function () {
                     case 0: return [4, client_1["default"].fg_user.findUnique({
                             where: {
                                 openid: openid
-                            }
+                            },
+                            select: this.findSelect()
                         })];
                     case 1:
                         user = _a.sent();
                         return [2, user];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.findUserList = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, client_1["default"].fg_user.findMany({
+                            where: {
+                                isDesigner: 4
+                            },
+                            select: this.findSelect()
+                        })];
+                    case 1:
+                        user = _a.sent();
+                        return [2, user];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.findSelect = function () {
+        var obj = {
+            id: true,
+            isDesigner: true,
+            token: true,
+            username: true,
+            phone: true,
+            isAdmin: true
+        };
+        return obj;
+    };
+    MiniprogramService.prototype.deleteById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, client_1["default"].fg_article["delete"]({
+                            where: {
+                                id: id
+                            }
+                        })];
+                    case 1:
+                        res = _a.sent();
+                        return [2, res];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.getOpenid = function (token) {
+        return __awaiter(this, void 0, void 0, function () {
+            var openid;
+            return __generator(this, function (_a) {
+                openid = redisConnection_1["default"].get(token);
+                if (!openid) {
+                    return [2, message_1["default"].fail('登录已过期，请刷页面')];
+                }
+                return [2, openid];
+            });
+        });
+    };
+    MiniprogramService.prototype.findArticle = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var list;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, client_1["default"].fg_article.findMany({
+                            skip: 3,
+                            take: 999
+                        })];
+                    case 1:
+                        list = _a.sent();
+                        return [2, list];
                 }
             });
         });
