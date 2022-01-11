@@ -49,7 +49,11 @@ export class miniprogramController {
   }
   @Get('/fg/getArticle')
   async getArtile(@QueryParam('page') page: Number, @QueryParam('num') num?: Number, @QueryParam('token') token?: String) {
-    let res = await this.MiniprogramService.getArticle(page, num = 20)
+    console.log(num);
+    if(!num){
+      num = 20
+    }
+    let res = await this.MiniprogramService.getArticle(page, num)
     return Message.success(res)
   }
 

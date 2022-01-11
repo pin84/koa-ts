@@ -87,7 +87,12 @@ var miniprogramController = (function () {
             var res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, this.MiniprogramService.getArticle(page, num = 20)];
+                    case 0:
+                        console.log(num);
+                        if (!num) {
+                            num = 20;
+                        }
+                        return [4, this.MiniprogramService.getArticle(page, num)];
                     case 1:
                         res = _a.sent();
                         return [2, message_1["default"].success(res)];
