@@ -69,7 +69,7 @@ const setPathMiniProgram = () => {
   if (env == 'development') {
     path = '/users/upload'
   } else {
-    path = '/etc/myapp/fg'
+    path = '/etc/myapp/fgstatic'
   }
   return path
 }
