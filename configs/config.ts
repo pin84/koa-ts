@@ -93,7 +93,7 @@ const miniprogramConfig = {
 }
 
 const baseURL = 'http://static.lzhs.top/upload'
-const baseURLMiniProgram = 'https://data.lzhs.top/fg'
+const baseURLMiniProgram = 'https://data.lzhs.top/fgstatic'
 
 export {
   wx,

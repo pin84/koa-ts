@@ -62,5 +62,5 @@ var miniprogramConfig = {
 exports.miniprogramConfig = miniprogramConfig;
 var baseURL = 'http://static.lzhs.top/upload';
 exports.baseURL = baseURL;
-var baseURLMiniProgram = 'https://data.lzhs.top/fg';
+var baseURLMiniProgram = 'https://data.lzhs.top/fgstatic';
 exports.baseURLMiniProgram = baseURLMiniProgram;
