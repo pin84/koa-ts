@@ -38,7 +38,10 @@ import { miniprogramConfig } from '../../configs/config'
 @Service()
 export class miniprogramController {
   constructor(private MiniprogramService: MiniprogramService) { }
-
+  @Get('/fg')
+  teaa(){
+    return 'aaaadfsdfds'
+  }
   @Get('/fg/delArticle')
   async delArtile(@QueryParam('token') token?: String,@QueryParam('id') id?: String){
    let res = await this.MiniprogramService.delArtile(id)

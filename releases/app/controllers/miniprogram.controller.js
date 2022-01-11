@@ -66,6 +66,9 @@ var miniprogramController = (function () {
     function miniprogramController(MiniprogramService) {
         this.MiniprogramService = MiniprogramService;
     }
+    miniprogramController.prototype.teaa = function () {
+        return 'aaaadfsdfds';
+    };
     miniprogramController.prototype.delArtile = function (token, id) {
         return __awaiter(this, void 0, void 0, function () {
             var res;
@@ -227,6 +230,12 @@ var miniprogramController = (function () {
             });
         });
     };
+    __decorate([
+        routing_controllers_1.Get('/fg'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], miniprogramController.prototype, "teaa");
     __decorate([
         routing_controllers_1.Get('/fg/delArticle'),
         __param(0, routing_controllers_1.QueryParam('token')),
