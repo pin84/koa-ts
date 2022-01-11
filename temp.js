@@ -21,6 +21,14 @@
     /fg/delArticle
 
 
+    用户上传资料
+    /fg/updateUser {phone,username}
+
+
+    /mini/code2Session  {code}
+
+
+
     所有接口都都需要token
 
  */

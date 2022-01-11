@@ -131,7 +131,7 @@ var MiniprogramService = (function () {
                 switch (_a.label) {
                     case 0: return [4, client_1["default"].fg_user.findMany({
                             where: {
-                                isDesigner: 4
+                                isDesigner: 5
                             },
                             select: this.findSelect()
                         })];
@@ -196,20 +196,20 @@ var MiniprogramService = (function () {
     };
     MiniprogramService.prototype.updateUser = function (userinfo) {
         return __awaiter(this, void 0, void 0, function () {
-            var username, phone, token, code, openid, updateUsers;
+            var username, phone, token, code, isHasCode, updateUsers;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         username = userinfo.username, phone = userinfo.phone, token = userinfo.token, code = userinfo.code;
-                        return [4, redisConnection_1["default"].get(token)];
+                        return [4, redisConnection_1["default"].get(phone)];
                     case 1:
-                        openid = _a.sent();
-                        if (!openid) {
+                        isHasCode = _a.sent();
+                        if (!isHasCode) {
                             return [2, message_1["default"].fail('验证码已过期，请重新发送')];
                         }
                         return [4, client_1["default"].fg_user.updateMany({
                                 where: {
-                                    openid: openid
+                                    token: token
                                 },
                                 data: {
                                     username: username,
@@ -376,7 +376,7 @@ var MiniprogramService = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, client_1["default"].fg_article.findMany({
-                            skip: 1,
+                            skip: 0,
                             take: 999
                         })];
                     case 1:

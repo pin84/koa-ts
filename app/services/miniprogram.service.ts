@@ -66,7 +66,7 @@ export class MiniprogramService {
   async getDesigner() {
     let list = await prisma.fg_user.findMany({
       where: {
-        isDesigner: 4,
+        isDesigner: 5,
       },
       select: this.findSelect()
     })
@@ -108,16 +108,16 @@ export class MiniprogramService {
 
   async updateUser(userinfo) {
     let { username, phone, token, code } = userinfo
-
-
-    let openid = await redis.get(token)
-    if (!openid) {
+    
+    let isHasCode = await redis.get(phone)
+    
+    if (!isHasCode) {
       return Message.fail('验证码已过期，请重新发送')
     }
 
     const updateUsers = await prisma.fg_user.updateMany({
       where: {
-        openid,
+        token,
       },
       data: {
         username, phone
@@ -230,7 +230,7 @@ export class MiniprogramService {
 
   async findArticle() {
     let list = await prisma.fg_article.findMany({
-      skip: 1,
+      skip: 0,
       take: 999,
     })
 
