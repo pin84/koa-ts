@@ -230,7 +230,7 @@ export class MiniprogramService {
 
   async findArticle() {
     let list = await prisma.fg_article.findMany({
-      skip: 3,
+      skip: 1,
       take: 999,
     })
 

@@ -376,7 +376,7 @@ var MiniprogramService = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, client_1["default"].fg_article.findMany({
-                            skip: 3,
+                            skip: 1,
                             take: 999
                         })];
                     case 1:
