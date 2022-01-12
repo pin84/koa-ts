@@ -6,11 +6,9 @@ import { Service } from 'typedi'
 export class AutoAssignJSONInterceptor implements InterceptorInterface {
   intercept(action: Action, content: any): any {
     if (typeof content === 'object'){
-      debugger
       return JSON.stringify(Object.assign({ message: 'ok' }, content))
     }
 
-    debugger
     return JSON.stringify({ message: content })
   }
 }

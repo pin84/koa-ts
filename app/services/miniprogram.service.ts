@@ -17,13 +17,47 @@ export class MiniprogramService {
    * About CRUD: https://www.prisma.io/docs/concepts/components/prisma-client/crud
    */
 
+
+
+  async delbanner(id) {
+    let res = await prisma.fg_uploadfile.delete({
+      where: {
+        id: Number(id)
+      }
+    })
+    return Message.success('删除成功')
+  }
+  async getBannerList() {
+    let res = await prisma.fg_uploadfile.findMany({
+      skip: 0,
+      take: 4,
+      where: {
+        type: 1
+      }
+    })
+
+    return Message.success(res)
+  }
+  async uploadBanner(obj) {
+    let { url } = obj
+
+    await prisma.fg_uploadfile.create({
+      data: {
+        imgURL: url,
+        type: 1
+      }
+    })
+
+    return Message.success('上传成功')
+  }
+
   async delArtile(id) {
     await this.deleteById(Number(id))
     return Message.success('删除成功')
   }
 
-  async getArticle(page,num) {
-    let skip = (page-1)*num
+  async getArticle(page, num) {
+    let skip = (page - 1) * num
     let list = await prisma.fg_article.findMany({
       skip,
       take: num,
@@ -33,11 +67,11 @@ export class MiniprogramService {
     return list
   }
   async createArticle(content) {
-    let { title, time, htmlStr, coverURL, subtitle,id} = content
-    console.log(title, time, htmlStr, coverURL, subtitle,id);
+    let { title, time, htmlStr, coverURL, subtitle, id } = content
+    console.log(title, time, htmlStr, coverURL, subtitle, id);
 
     let res
-    if(!id){
+    if (!id) {
       res = await prisma.fg_article.create({
         data: {
           title,
@@ -47,14 +81,14 @@ export class MiniprogramService {
           subtitle
         },
       })
-      console.log('====create===',res);
-      
+      console.log('====create===', res);
+
     } else {
       res = await prisma.fg_article.update({
-        where:{
-          id:Number(id)
+        where: {
+          id: Number(id)
         },
-        data:{
+        data: {
           title,
           time: String(time),
           content: htmlStr,
@@ -62,10 +96,10 @@ export class MiniprogramService {
           subtitle
         }
       })
-      console.log('====update===',res);
+      console.log('====update===', res);
     }
 
-    console.log('====aaaaa===',res);
+    console.log('====aaaaa===', res);
     return res
 
   }
@@ -79,7 +113,7 @@ export class MiniprogramService {
 
     return Message.success(list)
   }
-
+  // 用户 创建
   async create(session) {
     let { session_key, openid, unionid } = session
     let user = await this.findUser(openid)
@@ -114,9 +148,9 @@ export class MiniprogramService {
 
   async updateUser(userinfo) {
     let { username, phone, token, code } = userinfo
-    
+
     let isHasCode = await redis.get(phone)
-    
+
     if (!isHasCode) {
       return Message.fail('验证码已过期，请重新发送')
     }
@@ -164,6 +198,17 @@ export class MiniprogramService {
     return Message.success('申请成功，请等待审核')
   }
 
+  //设计师 获取申请列表
+  async getApplyDesiList() {
+    let res = await prisma.fg_user.findMany({
+      where: {
+        isDesigner: 4
+      }
+    })
+    return res
+  }
+
+  // 后台同意用户的申请，成为设计师
   async adminDesigner(openid) {
     let user = await this.findUser(openid)
     if (!user) {
@@ -216,8 +261,8 @@ export class MiniprogramService {
     return obj
   }
 
- async deleteById(id) {
-  let res = await  prisma.fg_article.delete({
+  async deleteById(id) {
+    let res = await prisma.fg_article.delete({
       where: {
         id
       }

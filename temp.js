@@ -28,7 +28,10 @@
     /mini/code2Session  {code}
 
 
+    /fg/delbanner  获取轮播图我只返回4张图
 
-    所有接口都都需要token
+
+
+  
 
  */

@@ -76,8 +76,8 @@ model fg_uploadfile {
   name        String?    @db.VarChar(45)
   originname  String ?    @db.VarChar(45)
   imgURL  String?    @db.VarChar(200)
-  userid      Int?
-  type      Int?  @db.UnsignedInt
+  userid      Int? @db.UnsignedInt
+  type      Int?  @db.UnsignedInt //1 banner
   create_time DateTime? @default(now()) @db.DateTime(0)
   update_time DateTime? @default(now()) @db.DateTime(0)
 }

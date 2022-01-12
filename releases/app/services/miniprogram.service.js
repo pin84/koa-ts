@@ -54,6 +54,62 @@ var jwt_1 = __importDefault(require("../helpers/jwt"));
 var MiniprogramService = (function () {
     function MiniprogramService() {
     }
+    MiniprogramService.prototype.delbanner = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, client_1["default"].fg_uploadfile["delete"]({
+                            where: {
+                                id: Number(id)
+                            }
+                        })];
+                    case 1:
+                        res = _a.sent();
+                        return [2, message_1["default"].success('删除成功')];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.getBannerList = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, client_1["default"].fg_uploadfile.findMany({
+                            skip: 0,
+                            take: 4,
+                            where: {
+                                type: 1
+                            }
+                        })];
+                    case 1:
+                        res = _a.sent();
+                        return [2, message_1["default"].success(res)];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.uploadBanner = function (obj) {
+        return __awaiter(this, void 0, void 0, function () {
+            var url;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = obj.url;
+                        return [4, client_1["default"].fg_uploadfile.create({
+                                data: {
+                                    imgURL: url,
+                                    type: 1
+                                }
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2, message_1["default"].success('上传成功')];
+                }
+            });
+        });
+    };
     MiniprogramService.prototype.delArtile = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -265,6 +321,23 @@ var MiniprogramService = (function () {
                     case 3:
                         updateUsers = _a.sent();
                         return [2, message_1["default"].success('申请成功，请等待审核')];
+                }
+            });
+        });
+    };
+    MiniprogramService.prototype.getApplyDesiList = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, client_1["default"].fg_user.findMany({
+                            where: {
+                                isDesigner: 4
+                            }
+                        })];
+                    case 1:
+                        res = _a.sent();
+                        return [2, res];
                 }
             });
         });

@@ -30,18 +30,26 @@ import { miniprogram } from '../helpers/miniprogram'
 import { miniprogramConfig } from '../../configs/config'
 // const uploadOpts = uploads.options;
 
-// console.log(uploadOpts);
-
-
-
 @Controller()
 @Service()
 export class miniprogramController {
   constructor(private MiniprogramService: MiniprogramService) { }
-  @Get('/fg')
-  teaa() {
-    return 'aaaadfsdfds'
+
+
+
+  @Get('/fg/delbanner')
+ async delbanner(@QueryParam('id') id: String) {
+
+    let res = await this.MiniprogramService.delbanner(id)
+    return res
   }
+  @Get('/fg/getbannerlist')
+ async getBannerList(@QueryParam('token') token?: String) {
+    let res = await this.MiniprogramService.getBannerList()
+    return res
+  }
+
+
   @Get('/fg/delArticle')
   async delArtile(@QueryParam('token') token?: String, @QueryParam('id') id?: String) {
     let res = await this.MiniprogramService.delArtile(id)
@@ -60,7 +68,6 @@ export class miniprogramController {
   @Post('/fg/uplod/article')
   async adminUploadArticle(@UploadedFile('fileName', { options: miniprogram }) file: any, @Body() content: any,) {
     console.log(content);
-    // debugger
     let { filename } = file
     let url = baseURLMiniProgram + '/' + filename
     await this.MiniprogramService.createArticle(Object.assign({}, { coverURL: url }, content))
@@ -96,7 +103,7 @@ export class miniprogramController {
     let { filename } = file
     let url = baseURLMiniProgram + '/' + filename
     console.log('--upload---- file--', file);
-
+    await this.MiniprogramService.uploadBanner({url})
     return Message.success(url)
   }
 
@@ -136,8 +143,12 @@ export class miniprogramController {
     return res
   }
 
-
-
+ //后台获取申请成为设计师的列表
+@Get('/fg/getapplydesi')
+async getApplyDesiList(){
+  let res = await this.MiniprogramService.getApplyDesiList()
+  return res
+}
 
   //申请成为设计师
   @Post('/fg/apply/designer')
@@ -152,8 +163,5 @@ export class miniprogramController {
     console.log(openid);
     return await this.MiniprogramService.adminDesigner(openid)
   }
-
-
-
 
 }

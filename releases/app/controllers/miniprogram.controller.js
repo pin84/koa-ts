@@ -66,8 +66,31 @@ var miniprogramController = (function () {
     function miniprogramController(MiniprogramService) {
         this.MiniprogramService = MiniprogramService;
     }
-    miniprogramController.prototype.teaa = function () {
-        return 'aaaadfsdfds';
+    miniprogramController.prototype.delbanner = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.MiniprogramService.delbanner(id)];
+                    case 1:
+                        res = _a.sent();
+                        return [2, res];
+                }
+            });
+        });
+    };
+    miniprogramController.prototype.getBannerList = function (token) {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.MiniprogramService.getBannerList()];
+                    case 1:
+                        res = _a.sent();
+                        return [2, res];
+                }
+            });
+        });
     };
     miniprogramController.prototype.delArtile = function (token, id) {
         return __awaiter(this, void 0, void 0, function () {
@@ -158,10 +181,16 @@ var miniprogramController = (function () {
         return __awaiter(this, void 0, void 0, function () {
             var filename, url;
             return __generator(this, function (_a) {
-                filename = file.filename;
-                url = config_1.baseURLMiniProgram + '/' + filename;
-                console.log('--upload---- file--', file);
-                return [2, message_1["default"].success(url)];
+                switch (_a.label) {
+                    case 0:
+                        filename = file.filename;
+                        url = config_1.baseURLMiniProgram + '/' + filename;
+                        console.log('--upload---- file--', file);
+                        return [4, this.MiniprogramService.uploadBanner({ url: url })];
+                    case 1:
+                        _a.sent();
+                        return [2, message_1["default"].success(url)];
+                }
             });
         });
     };
@@ -219,6 +248,19 @@ var miniprogramController = (function () {
             });
         });
     };
+    miniprogramController.prototype.getApplyDesiList = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.MiniprogramService.getApplyDesiList()];
+                    case 1:
+                        res = _a.sent();
+                        return [2, res];
+                }
+            });
+        });
+    };
     miniprogramController.prototype.applyDesigner = function (Content) {
         return __awaiter(this, void 0, void 0, function () {
             var phone, username, token;
@@ -245,11 +287,19 @@ var miniprogramController = (function () {
         });
     };
     __decorate([
-        routing_controllers_1.Get('/fg'),
+        routing_controllers_1.Get('/fg/delbanner'),
+        __param(0, routing_controllers_1.QueryParam('id')),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", void 0)
-    ], miniprogramController.prototype, "teaa");
+        __metadata("design:paramtypes", [String]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "delbanner");
+    __decorate([
+        routing_controllers_1.Get('/fg/getbannerlist'),
+        __param(0, routing_controllers_1.QueryParam('token')),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [String]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "getBannerList");
     __decorate([
         routing_controllers_1.Get('/fg/delArticle'),
         __param(0, routing_controllers_1.QueryParam('token')),
@@ -323,6 +373,12 @@ var miniprogramController = (function () {
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], miniprogramController.prototype, "update");
+    __decorate([
+        routing_controllers_1.Get('/fg/getapplydesi'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "getApplyDesiList");
     __decorate([
         routing_controllers_1.Post('/fg/apply/designer'),
         __param(0, routing_controllers_1.Body()),
