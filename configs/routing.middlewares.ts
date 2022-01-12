@@ -10,6 +10,7 @@ export class HeaderMiddleware implements KoaMiddlewareInterface {
     let origin = context.request.header.origin
     // console.log('--origin----', origin, context.request.req.method);
     let urlArr = [
+      'http://fg.lzhs.top',
       'http://www.lzhs.top',
       'http://lzhs.top',
       'http://wx.lzhs.top',

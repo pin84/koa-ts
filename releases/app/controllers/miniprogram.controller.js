@@ -154,6 +154,17 @@ var miniprogramController = (function () {
             });
         });
     };
+    miniprogramController.prototype.uploadbanner = function (file) {
+        return __awaiter(this, void 0, void 0, function () {
+            var filename, url;
+            return __generator(this, function (_a) {
+                filename = file.filename;
+                url = config_1.baseURLMiniProgram + '/' + filename;
+                console.log('--upload---- file--', file);
+                return [2, message_1["default"].success(url)];
+            });
+        });
+    };
     miniprogramController.prototype.code2Session = function (code) {
         return __awaiter(this, void 0, void 0, function () {
             var appid, secret, url, res, user;
@@ -284,6 +295,13 @@ var miniprogramController = (function () {
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], miniprogramController.prototype, "uploadImg");
+    __decorate([
+        routing_controllers_1.Post('/fg/uploadbanner'),
+        __param(0, routing_controllers_1.UploadedFile('fileName', { options: miniprogram_1.miniprogram })),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", Promise)
+    ], miniprogramController.prototype, "uploadbanner");
     __decorate([
         routing_controllers_1.Get('/mini/code2Session'),
         __param(0, routing_controllers_1.QueryParam('code')),

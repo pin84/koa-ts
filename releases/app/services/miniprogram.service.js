@@ -142,7 +142,7 @@ var MiniprogramService = (function () {
                         })];
                     case 1:
                         list = _a.sent();
-                        return [2, list];
+                        return [2, message_1["default"].success(list)];
                 }
             });
         });

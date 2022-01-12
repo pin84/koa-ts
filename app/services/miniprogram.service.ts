@@ -77,7 +77,7 @@ export class MiniprogramService {
       select: this.findSelect()
     })
 
-    return list
+    return Message.success(list)
   }
 
   async create(session) {

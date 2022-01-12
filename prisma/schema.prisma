@@ -28,6 +28,8 @@ model user {
   update_time DateTime? @default(now()) @db.DateTime(0)
 }
 
+
+
 model message {
   id          Int       @id @default(autoincrement()) @db.UnsignedInt
   userid      Int?
@@ -68,11 +70,14 @@ model fg_article {
   update_time DateTime? @default(now()) @db.DateTime(0)
 }
 
+
 model fg_uploadfile {
   id          Int       @unique @default(autoincrement()) @db.UnsignedInt
-  name        String    @unique @db.VarChar(45)
-  originname  String    @unique @db.VarChar(45)
-  userid      Int
+  name        String?    @db.VarChar(45)
+  originname  String ?    @db.VarChar(45)
+  imgURL  String?    @db.VarChar(200)
+  userid      Int?
+  type      Int?  @db.UnsignedInt
   create_time DateTime? @default(now()) @db.DateTime(0)
   update_time DateTime? @default(now()) @db.DateTime(0)
 }

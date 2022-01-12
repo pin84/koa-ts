@@ -82,11 +82,21 @@ export class miniprogramController {
   }
 
 
-  @Post('/mini/upload')
+  @Post('/mini/upload') 
   async uploadImg(@UploadedFile('fileName', { options: miniprogram }) file: any) {
     let { filename } = file
     let url = baseURLMiniProgram + '/' + filename
     console.log('--upload---- file--', file);
+
+    return Message.success(url)
+  }
+
+  @Post('/fg/uploadbanner') //banner
+  async uploadbanner(@UploadedFile('fileName', { options: miniprogram }) file: any) {
+    let { filename } = file
+    let url = baseURLMiniProgram + '/' + filename
+    console.log('--upload---- file--', file);
+
     return Message.success(url)
   }
 
